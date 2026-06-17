@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>课程详情｜博望课堂</title>
+  <meta name="description" content="博望课堂课程详情与课程回顾演示页面。">
+  <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
+  <script src="https://unpkg.com/lucide@1.20.0/dist/umd/lucide.js"></script>
+  <style>
+    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink);background:#fff}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.hero{background-image:linear-gradient(90deg,rgba(0,0,0,.76),rgba(0,0,0,.38)),var(--hero);background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.reveal.show{opacity:1;transform:translateY(0)}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body class="antialiased">
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+      <a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a>
+      <nav class="hidden items-center gap-7 text-sm font-semibold lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link" href="team.html">博望团队</a><a class="nav-link active" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link" href="about.html">关于我们</a></nav>
+      <a href="about.html#contact" class="hidden rounded-full bg-black px-5 py-2 text-sm font-bold text-white hover:bg-red-700 lg:inline-flex">预约咨询</a>
+      <button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button>
+    </div>
+    <div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-sm font-semibold"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero pt-32 text-white">
+      <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <a href="classroom.html" class="inline-flex items-center gap-2 rounded-full border border-white/35 px-4 py-2 text-sm font-bold text-white/90 hover:bg-white hover:text-black"><i data-lucide="arrow-left" class="h-4 w-4"></i> 返回博望课堂</a>
+        <p id="eyebrow" class="mt-10 text-sm font-black uppercase tracking-[.28em] text-red-200"></p>
+        <h1 id="courseTitle" class="mt-4 max-w-4xl text-4xl font-black leading-tight md:text-6xl"></h1>
+        <p id="courseIntro" class="mt-6 max-w-3xl text-lg leading-8 text-white/78"></p>
+      </div>
+    </section>
+
+    <section class="mx-auto grid max-w-7xl gap-8 px-5 py-16 lg:grid-cols-[1fr_340px] lg:px-8">
+      <article class="reveal">
+        <div id="stats" class="grid gap-4 md:grid-cols-3"></div>
+        <div class="mt-8 border border-black/10 p-6 md:p-8">
+          <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Course Modules</p>
+          <h2 class="mt-3 text-3xl font-black">课程模块</h2>
+          <div id="modules" class="mt-8 grid gap-4"></div>
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <section class="border border-black/10 p-6">
+            <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Audience</p>
+            <h2 class="mt-3 text-2xl font-black">适合对象</h2>
+            <ul id="audience" class="mt-5 grid gap-3 text-sm leading-7 text-neutral-700"></ul>
+          </section>
+          <section class="border border-black/10 p-6">
+            <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Takeaways</p>
+            <h2 class="mt-3 text-2xl font-black">课程收获</h2>
+            <ul id="outcomes" class="mt-5 grid gap-3 text-sm leading-7 text-neutral-700"></ul>
+          </section>
+        </div>
+      </article>
+      <aside class="reveal lg:sticky lg:top-28 lg:self-start">
+        <div class="bg-[#f8f6f1] p-6">
+          <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Class Info</p>
+          <h2 class="mt-3 text-2xl font-black">课程信息</h2>
+          <div id="courseInfo" class="mt-5 grid gap-3 text-sm text-neutral-700"></div>
+          <a href="about.html#contact" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-3 font-bold text-white hover:bg-red-700">预约企业内训 <i data-lucide="send" class="h-4 w-4"></i></a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="border-y border-black/10 bg-black text-white">
+      <div class="mx-auto grid max-w-7xl gap-4 px-5 py-8 md:grid-cols-3 lg:px-8">
+        <a id="prevLink" class="group border border-white/20 p-5 hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">上一课</p><h3 id="prevTitle" class="mt-2 text-xl font-black"></h3></a>
+        <div class="flex items-center justify-center border border-white/20 p-5 text-center"><span id="counter" class="text-sm font-black tracking-[.24em] text-white/70"></span></div>
+        <a id="nextLink" class="group border border-white/20 p-5 text-right hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">下一课</p><h3 id="nextTitle" class="mt-2 text-xl font-black"></h3></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-black/10 bg-[#f8f6f1]"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>课程详情为静态演示数据</span></div></footer>
+
+  <script>
+    const courses = [
+      {id:"expansion",type:"Course System",place:"企业内训",title:"扩张前法律体检",intro:"面向创始人、法务负责人和加盟负责人，帮助品牌在开放加盟前排查模式、合同、授权和交付风险。",image:"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2200&q=85",stats:[["3h","单次课程"],["4","核心模块"],["1套","文件清单"]],audience:["准备从直营转加盟的品牌创始人","负责加盟、区域扩张的业务负责人","需要搭建合同体系的法务与运营负责人"],outcomes:["获得扩张前法律体检清单","识别费用、授权、培训和退出规则风险","形成下一步合同和制度升级待办"],modules:[["01","扩张模式与授权边界","梳理直营、单店加盟、区域代理和联营的法律差异。"],["02","加盟合同关键条款","拆解费用收取、保证金、商圈保护、物料采购和退出机制。"],["03","招商材料合规审查","识别收益承诺、资质展示和案例引用中的高风险表达。"],["04","管理动作落地","把课程结论转化为合同、手册、培训和台账待办。"]]},
+      {id:"investment",type:"Course System",place:"公开课/内训",title:"招商合规训练营",intro:"让招商团队理解话术边界、素材留痕和客户沟通规范，减少口头承诺引发的加盟争议。",image:"https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=82",stats:[["1天","训练营"],["8","情景演练"],["120+","敏感词示例"]],audience:["招商总监与招商经理","区域拓展与客户经理","负责招商物料的市场团队"],outcomes:["掌握收益承诺与事实陈述边界","建立招商素材审核和版本留痕习惯","形成统一客户沟通记录模板"],modules:[["01","招商争议常见来源","从真实投诉场景拆解承诺过度和信息披露不足。"],["02","话术红线训练","用情景题训练团队识别不能说、谨慎说和必须留证的话。"],["03","素材审核流程","建立招商 PPT、短视频脚本、朋友圈素材的审核路径。"],["04","成交后交接","把销售承诺同步给运营和法务，减少交付断层。"]]},
+      {id:"store-risk",type:"Course System",place:"门店管理课",title:"门店经营风险课",intro:"围绕广告、用工、消费者投诉、食品安全和证照管理等高频门店问题，训练一线管理者的判断和升级能力。",image:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=82",stats:[["5","高频场景"],["12","门店检查项"],["2h","案例演练"]],audience:["区域经理与门店督导","门店店长和运营管理人员","总部运营、客服和法务接口人"],outcomes:["明确门店事项的处理权限","建立投诉、监管、舆情升级标准","掌握证据留存和沟通记录方法"],modules:[["01","广告与价格标识","检查促销话术、海报价格和会员权益表达。"],["02","用工和排班风险","处理试用、加班、离职交接和兼职人员管理。"],["03","消费者投诉响应","训练首次沟通、事实确认、证据保存和升级口径。"],["04","证照与监管事项","建立证照检查和监管沟通的基础台账。"]]},
+      {id:"dispute-workshop",type:"Course System",place:"工作坊",title:"争议处理工作坊",intro:"从首次沟通、证据收集、谈判策略到诉讼仲裁衔接，帮助管理团队用统一口径处理争议。",image:"https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=82",stats:[["6h","工作坊"],["3","分组推演"],["1份","争议处置表"]],audience:["管理层和区域负责人","处理加盟商或客户纠纷的业务团队","法务、客服与运营负责人"],outcomes:["建立争议分级和负责人机制","学会证据分层和谈判方案设计","形成可复用的标准处置表"],modules:[["01","争议分级判断","区分可沟通、需调解、需诉讼和舆情高风险事项。"],["02","证据材料组织","围绕合同、沟通、交付和付款建立证据包。"],["03","谈判方案设计","用底线、让步、时间节点和授权边界提高谈判效率。"],["04","复盘机制","把已发生争议反向更新到合同、培训和管理制度。"]]},
+      {id:"review-shanghai",type:"Course Review",place:"2026.05｜上海",title:"连锁招商话术合规训练营",intro:"42 位招商负责人参与，现场完成招商材料风险标注，并输出三类话术调整建议。",image:"https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=82",stats:[["42","参训人员"],["6","分组演练"],["18","素材复盘"]],audience:["餐饮与生活服务连锁招商团队","品牌市场和加盟运营负责人","需要统一招商口径的企业"],outcomes:["完成招商 PPT 风险标注","建立客户沟通留痕表","形成高风险话术替代表达"],modules:[["回顾 01","收益承诺演练","围绕回本周期、门店利润和投资回报话术进行替换训练。"],["回顾 02","招商素材标注","现场标记资质展示、案例引用和促销语中的风险点。"],["回顾 03","流程共创","把素材提交、法务审核、版本归档做成协作流程。"]]},
+      {id:"review-shenzhen",type:"Course Review",place:"2026.04｜深圳",title:"门店投诉与证据留存工作坊",intro:"围绕消费者投诉、短视频曝光和退费争议进行案例演练，输出门店证据留存清单。",image:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=82",stats:[["36","参训人员"],["9","投诉场景"],["1份","留证清单"]],audience:["区域经理和门店店长","客服与运营支持团队","处理一线投诉的品牌管理者"],outcomes:["明确投诉首次响应口径","掌握录音、视频、聊天记录保存要点","建立监管或舆情事件升级规则"],modules:[["回顾 01","投诉分级","按金额、传播范围、监管风险和事实清晰度确定处置级别。"],["回顾 02","证据留存","训练门店如何保存小票、监控、聊天记录和现场照片。"],["回顾 03","沟通复盘","把高风险回复改写成更清晰、克制、可留证的表达。"]]},
+      {id:"review-hangzhou",type:"Course Review",place:"2026.03｜杭州",title:"品牌扩张前法律体检闭门课",intro:"面向创始人与合伙人，拆解加盟模型、合同体系和知识产权授权的升级路径。",image:"https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=82",stats:[["18","管理者"],["4","品牌案例"],["24","升级待办"]],audience:["准备开放加盟的品牌创始人","合伙人和管理层","法务、财务与运营负责人"],outcomes:["识别开放加盟前的必补文件","明确授权和商圈保护边界","形成合同体系升级路线图"],modules:[["回顾 01","模型诊断","比较单店加盟、区域代理和直营转让的风险差异。"],["回顾 02","合同文件包","梳理主合同、附件、手册、授权书和承诺函之间的关系。"],["回顾 03","升级路线图","把问题拆成 30 天、60 天、90 天三个阶段推进。"]]}
+    ];
+    const params = new URLSearchParams(location.search);
+    const key = params.get("id") || courses[0].id;
+    let index = courses.findIndex(item => item.id === key);
+    if (index < 0) index = 0;
+    const item = courses[index];
+    document.title = item.title + "｜博望课堂";
+    document.documentElement.style.setProperty("--hero", `url("${item.image}")`);
+    document.getElementById("eyebrow").textContent = `${item.type}｜${item.place}`;
+    document.getElementById("courseTitle").textContent = item.title;
+    document.getElementById("courseIntro").textContent = item.intro;
+    document.getElementById("stats").innerHTML = item.stats.map(s => `<div class="border border-black/10 bg-[#f8f6f1] p-5"><p class="text-4xl font-black">${s[0]}</p><p class="mt-2 text-sm text-neutral-600">${s[1]}</p></div>`).join("");
+    document.getElementById("modules").innerHTML = item.modules.map(m => `<section class="grid gap-4 border border-black/10 p-5 md:grid-cols-[72px_1fr]"><div class="text-2xl font-black text-red-700">${m[0]}</div><div><h3 class="text-xl font-black">${m[1]}</h3><p class="mt-2 text-sm leading-7 text-neutral-600">${m[2]}</p></div></section>`).join("");
+    document.getElementById("audience").innerHTML = item.audience.map(text => `<li class="flex gap-2"><i data-lucide="user-check" class="mt-1 h-4 w-4 shrink-0 text-red-700"></i><span>${text}</span></li>`).join("");
+    document.getElementById("outcomes").innerHTML = item.outcomes.map(text => `<li class="flex gap-2"><i data-lucide="check-circle-2" class="mt-1 h-4 w-4 shrink-0 text-red-700"></i><span>${text}</span></li>`).join("");
+    document.getElementById("courseInfo").innerHTML = [["类型",item.type],["地点",item.place],["状态","可预约"],["说明","静态演示数据"]].map(x => `<div class="flex justify-between gap-4 border-b border-black/10 pb-3"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("");
+    const prev = courses[(index - 1 + courses.length) % courses.length];
+    const next = courses[(index + 1) % courses.length];
+    document.getElementById("prevLink").href = `course-detail.html?id=${prev.id}`;
+    document.getElementById("nextLink").href = `course-detail.html?id=${next.id}`;
+    document.getElementById("prevTitle").textContent = prev.title;
+    document.getElementById("nextTitle").textContent = next.title;
+    document.getElementById("counter").textContent = `${index + 1} / ${courses.length}`;
+    document.querySelector("[data-menu]")?.addEventListener("click",()=>document.getElementById("mobileNav").classList.toggle("hidden"));
+    const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+    window.lucide?.createIcons();
+  </script>
+</body>
+</html>

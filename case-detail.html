@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>案例详情｜博望服务案例</title>
+  <meta name="description" content="博望连锁法务团队案例详情演示页面。">
+  <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
+  <script src="https://unpkg.com/lucide@1.20.0/dist/umd/lucide.js"></script>
+  <style>
+    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink);background:#fff}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.hero{background-image:linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.4)),var(--hero);background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.reveal.show{opacity:1;transform:translateY(0)}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body class="antialiased">
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+      <a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a>
+      <nav class="hidden items-center gap-7 text-sm font-semibold lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link active" href="cases.html">服务案例</a><a class="nav-link" href="about.html">关于我们</a></nav>
+      <a href="about.html#contact" class="hidden rounded-full bg-black px-5 py-2 text-sm font-bold text-white hover:bg-red-700 lg:inline-flex">预约咨询</a>
+      <button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button>
+    </div>
+    <div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-sm font-semibold"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero pt-32 text-white">
+      <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <a href="cases.html" class="inline-flex items-center gap-2 rounded-full border border-white/35 px-4 py-2 text-sm font-bold text-white/90 hover:bg-white hover:text-black"><i data-lucide="arrow-left" class="h-4 w-4"></i> 返回服务案例</a>
+        <p id="industry" class="mt-10 text-sm font-black uppercase tracking-[.28em] text-red-200"></p>
+        <h1 id="caseTitle" class="mt-4 max-w-4xl text-4xl font-black leading-tight md:text-6xl"></h1>
+        <p id="caseIntro" class="mt-6 max-w-3xl text-lg leading-8 text-white/78"></p>
+      </div>
+    </section>
+
+    <section class="mx-auto grid max-w-7xl gap-8 px-5 py-16 lg:grid-cols-[1fr_340px] lg:px-8">
+      <article class="reveal">
+        <div id="metrics" class="grid gap-4 md:grid-cols-3"></div>
+        <div id="story" class="mt-8 grid gap-6"></div>
+      </article>
+      <aside class="reveal lg:sticky lg:top-28 lg:self-start">
+        <div class="border border-black/10 bg-[#f8f6f1] p-6">
+          <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Project File</p>
+          <h2 class="mt-3 text-2xl font-black">项目档案</h2>
+          <div id="fileInfo" class="mt-5 grid gap-3 text-sm text-neutral-700"></div>
+          <div class="mt-6 border-t border-black/10 pt-6">
+            <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Deliverables</p>
+            <ul id="deliverables" class="mt-4 grid gap-3 text-sm leading-7 text-neutral-700"></ul>
+          </div>
+          <a href="about.html#contact" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-3 font-bold text-white hover:bg-red-700">咨询同类项目 <i data-lucide="send" class="h-4 w-4"></i></a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="border-y border-black/10 bg-black text-white">
+      <div class="mx-auto grid max-w-7xl gap-4 px-5 py-8 md:grid-cols-3 lg:px-8">
+        <a id="prevLink" class="group border border-white/20 p-5 hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">上一案</p><h3 id="prevTitle" class="mt-2 text-xl font-black"></h3></a>
+        <div class="flex items-center justify-center border border-white/20 p-5 text-center"><span id="counter" class="text-sm font-black tracking-[.24em] text-white/70"></span></div>
+        <a id="nextLink" class="group border border-white/20 p-5 text-right hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">下一案</p><h3 id="nextTitle" class="mt-2 text-xl font-black"></h3></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-black/10 bg-[#f8f6f1]"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>案例详情为静态演示数据</span></div></footer>
+
+  <script>
+    const cases = [
+      {id:"restaurant-contract",industry:"Restaurant Chain",type:"餐饮连锁",title:"72 家门店加盟合同体系重构",intro:"为区域餐饮品牌重建加盟合同、手册和退出机制，帮助总部在快速扩张期统一规则。",image:"https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=2200&q=85",metrics:[["72","门店数量"],["35天","项目周期"],["18份","模板文件"]],info:[["行业","餐饮连锁"],["服务","合同体系"],["阶段","扩张升级"],["声明","静态演示"]],deliverables:["加盟合同与附件包","授权边界和商圈保护条款","加盟商退出与违约处置表"],story:[["项目背景","客户在直营基础上开放加盟，原有合同无法覆盖区域代理、物料采购、门店装修、培训交付和退出机制，招商团队与运营团队口径不一致。"],["解决动作","项目组先访谈管理层、招商、运营和财务，再梳理历史纠纷和高频咨询，最终形成主合同、附件、手册引用条款和审批清单。"],["演示结果","总部可以用统一模板完成招商签约，门店运营和加盟商管理有了明确依据，后续争议处理也能快速定位条款和证据。"]]},
+      {id:"supply-chain",industry:"Restaurant Chain",type:"餐饮连锁",title:"供应链采购合同风险治理",intro:"针对核心食材供应商设定质量标准、交付验收、价格调整、召回与违约责任条款。",image:"https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1600&q=82",metrics:[["26","供应商"],["64","条款调整"],["5类","验收标准"]],info:[["行业","餐饮连锁"],["服务","供应链合规"],["阶段","采购升级"],["声明","静态演示"]],deliverables:["采购合同模板","验收与召回条款库","供应商违约分级表"],story:[["项目背景","客户使用多个版本采购合同，质量标准、价格调整和召回责任散落在不同附件中，门店端出现问题后追责难度较高。"],["解决动作","团队把供应商按食材类别和风险等级分类，重写质量标准、验收节点、价格浮动、召回协作和违约责任。"],["演示结果","采购、仓储、门店和供应商之间形成统一文件口径，高风险供应商被纳入重点复盘清单。"]]},
+      {id:"food-safety",industry:"Restaurant Chain",type:"餐饮连锁",title:"门店食品安全应急预案",intro:"建立投诉分级、舆情响应、监管沟通、证据保存和内部追责流程。",image:"https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=82",metrics:[["12","场景分类"],["4场","培训演练"],["24h","响应机制"]],info:[["行业","餐饮连锁"],["服务","危机响应"],["阶段","门店治理"],["声明","静态演示"]],deliverables:["食品安全应急预案","门店证据留存清单","监管沟通与舆情响应话术"],story:[["项目背景","品牌门店数量增加后，消费者投诉、短视频曝光和监管检查的处置依赖店长经验，总部难以及时介入。"],["解决动作","项目组按投诉、疑似食安事件、媒体曝光和监管检查进行分级，并为每一级设定首响、留证、上报和对外沟通规则。"],["演示结果","门店知道先做什么、总部知道何时介入、法务能快速拿到证据材料，应急处置更稳定。"]]},
+      {id:"education-refund",industry:"Education Chain",type:"教育连锁",title:"校区退费争议专项治理",intro:"梳理招生承诺、课程合同、服务记录和家长沟通材料，形成标准化退费处理表。",image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=82",metrics:[["31","校区"],["5类","退费场景"],["1套","处置表"]],info:[["行业","教育连锁"],["服务","争议治理"],["阶段","专项复盘"],["声明","静态演示"]],deliverables:["退费争议分级表","招生话术整改建议","校区沟通记录模板"],story:[["项目背景","家长退费争议集中出现，争议焦点分散在销售承诺、课程交付、合同条款和沟通记录之间。"],["解决动作","团队按争议原因建立分类模型，对招生材料、合同模板和服务记录进行交叉复盘，并设计退费处理权限。"],["演示结果","校区可根据分级表快速判断处理方式，总部可以持续追踪高频问题并回收至招生培训。"]]},
+      {id:"regional-agent",industry:"Service Chain",type:"生活服务连锁",title:"区域代理授权边界调整",intro:"针对区域代理、直营门店和合作门店的业务冲突，重设授权和考核机制。",image:"https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=1600&q=82",metrics:[["8","区域代理"],["3类","授权边界"],["60天","调整周期"]],info:[["行业","生活服务连锁"],["服务","授权治理"],["阶段","区域调整"],["声明","静态演示"]],deliverables:["区域代理补充协议","直营与合作门店边界清单","代理考核与退出机制"],story:[["项目背景","品牌直营、代理和合作门店同时扩张，部分区域出现客户归属、物料采购和服务标准冲突。"],["解决动作","团队重画区域授权边界，设置客户归属规则、跨区经营处理机制和代理考核指标，并配套退出条款。"],["演示结果","区域代理权责更清晰，总部在新增直营门店或合作门店时拥有更稳定的协商依据。"]]}
+    ];
+    const params = new URLSearchParams(location.search);
+    const key = params.get("id") || cases[0].id;
+    let index = cases.findIndex(item => item.id === key);
+    if (index < 0) index = 0;
+    const item = cases[index];
+    document.title = item.title + "｜服务案例";
+    document.documentElement.style.setProperty("--hero", `url("${item.image}")`);
+    document.getElementById("industry").textContent = `${item.industry}｜${item.type}`;
+    document.getElementById("caseTitle").textContent = item.title;
+    document.getElementById("caseIntro").textContent = item.intro;
+    document.getElementById("metrics").innerHTML = item.metrics.map(m => `<div class="border border-black/10 bg-[#f8f6f1] p-5"><p class="text-4xl font-black">${m[0]}</p><p class="mt-2 text-sm text-neutral-600">${m[1]}</p></div>`).join("");
+    document.getElementById("story").innerHTML = item.story.map(s => `<section class="border border-black/10 p-6 md:p-8"><p class="text-xs font-black uppercase tracking-[.24em] text-red-700">${s[0]}</p><p class="mt-4 text-lg leading-9 text-neutral-700">${s[1]}</p></section>`).join("");
+    document.getElementById("fileInfo").innerHTML = item.info.map(x => `<div class="flex justify-between gap-4 border-b border-black/10 pb-3"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join("");
+    document.getElementById("deliverables").innerHTML = item.deliverables.map(text => `<li class="flex gap-2"><i data-lucide="check-circle-2" class="mt-1 h-4 w-4 shrink-0 text-red-700"></i><span>${text}</span></li>`).join("");
+    const prev = cases[(index - 1 + cases.length) % cases.length];
+    const next = cases[(index + 1) % cases.length];
+    document.getElementById("prevLink").href = `case-detail.html?id=${prev.id}`;
+    document.getElementById("nextLink").href = `case-detail.html?id=${next.id}`;
+    document.getElementById("prevTitle").textContent = prev.title;
+    document.getElementById("nextTitle").textContent = next.title;
+    document.getElementById("counter").textContent = `${index + 1} / ${cases.length}`;
+    document.querySelector("[data-menu]")?.addEventListener("click",()=>document.getElementById("mobileNav").classList.toggle("hidden"));
+    const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+    window.lucide?.createIcons();
+  </script>
+</body>
+</html>

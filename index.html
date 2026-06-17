@@ -84,6 +84,11 @@
     .nav-link:hover:after, .nav-link.active:after { transform: scaleX(1); }
     .card-hover { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
     .card-hover:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(16,24,40,.12); border-color: rgba(200,16,46,.28); }
+    .hub-option { transition: background .22s ease, color .22s ease, border-color .22s ease, transform .22s ease; }
+    .hub-option.is-active { background: #161616; color: #fff; border-color: #161616; transform: translateX(4px); }
+    .hub-option.is-active .hub-dot { background: var(--brand); }
+    .hub-image { transition: opacity .24s ease, transform .24s ease; }
+    .hub-image.is-swapping { opacity: .35; transform: scale(.985); }
     .marquee-track { animation: marquee 24s linear infinite; }
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .pulse-dot { animation: pulse 1.8s ease-in-out infinite; }
@@ -210,53 +215,172 @@
       </div>
     </section>
 
+    <section id="command-center" class="hidden" aria-hidden="true" style="display:none">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div>
+            <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Command Center</p>
+            <h2 class="mt-3 text-3xl font-black md:text-5xl">一个问题，联动五个栏目</h2>
+          </div>
+          <p class="max-w-xl leading-8 text-neutral-600">把官网从“看介绍”变成“找答案”：从业务问题出发，自动串起服务方案、研究文章、负责团队、课程训练和同类案例。</p>
+        </div>
+
+        <div class="mt-10 grid border border-black/10 bg-white lg:grid-cols-[280px_minmax(0,1fr)_330px]">
+          <div class="grid gap-3 border-b border-black/10 p-4 lg:border-b-0 lg:border-r lg:p-5">
+            <button class="hub-option flex items-center gap-3 border border-black/10 px-4 py-4 text-left" data-hub="expansion">
+              <span class="hub-dot h-2.5 w-2.5 shrink-0 rounded-full bg-neutral-300"></span>
+              <span><span class="block text-sm font-black">扩张前体检</span><span class="mt-1 block text-xs text-neutral-500">开放加盟与区域扩张</span></span>
+            </button>
+            <button class="hub-option flex items-center gap-3 border border-black/10 px-4 py-4 text-left" data-hub="marketing">
+              <span class="hub-dot h-2.5 w-2.5 shrink-0 rounded-full bg-neutral-300"></span>
+              <span><span class="block text-sm font-black">招商宣传合规</span><span class="mt-1 block text-xs text-neutral-500">话术、素材与留痕</span></span>
+            </button>
+            <button class="hub-option flex items-center gap-3 border border-black/10 px-4 py-4 text-left" data-hub="store">
+              <span class="hub-dot h-2.5 w-2.5 shrink-0 rounded-full bg-neutral-300"></span>
+              <span><span class="block text-sm font-black">门店运营治理</span><span class="mt-1 block text-xs text-neutral-500">证照、投诉与用工</span></span>
+            </button>
+            <button class="hub-option flex items-center gap-3 border border-black/10 px-4 py-4 text-left" data-hub="dispute">
+              <span class="hub-dot h-2.5 w-2.5 shrink-0 rounded-full bg-neutral-300"></span>
+              <span><span class="block text-sm font-black">争议快速响应</span><span class="mt-1 block text-xs text-neutral-500">证据、谈判与诉讼</span></span>
+            </button>
+            <button class="hub-option flex items-center gap-3 border border-black/10 px-4 py-4 text-left" data-hub="assets">
+              <span class="hub-dot h-2.5 w-2.5 shrink-0 rounded-full bg-neutral-300"></span>
+              <span><span class="block text-sm font-black">品牌资产保护</span><span class="mt-1 block text-xs text-neutral-500">商标、秘密与合同</span></span>
+            </button>
+          </div>
+
+          <div class="grid gap-0 xl:grid-cols-[.92fr_1.08fr]">
+            <div class="min-h-[360px] border-b border-black/10 xl:border-b-0 xl:border-r">
+              <img id="hubImage" class="hub-image h-full min-h-[360px] w-full object-cover" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&amp;fit=crop&amp;w=1200&amp;q=82" alt="法务联动场景演示图">
+            </div>
+            <div class="p-6 md:p-8">
+              <p id="hubEyebrow" class="text-xs font-black uppercase tracking-[.24em] text-red-700"></p>
+              <h3 id="hubTitle" class="mt-3 text-3xl font-black leading-tight md:text-4xl"></h3>
+              <p id="hubDesc" class="mt-5 leading-8 text-neutral-600"></p>
+              <div id="hubMetrics" class="mt-8 grid gap-3 sm:grid-cols-3"></div>
+              <div class="mt-8 border-t border-black/10 pt-6">
+                <p class="text-xs font-black uppercase tracking-[.24em] text-neutral-500">Recommended Route</p>
+                <div id="hubRoute" class="mt-4 grid gap-3"></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="border-t border-black/10 p-5 lg:border-l lg:border-t-0">
+            <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Linked Pages</p>
+            <h3 class="mt-3 text-2xl font-black">联动内容</h3>
+            <div id="hubLinks" class="mt-6 grid gap-3"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="hidden" aria-hidden="true" style="display:none">
+      <div class="reveal flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div>
+          <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Risk Journey</p>
+          <h2 class="mt-3 text-3xl font-black md:text-5xl">从开店到争议的四段闭环</h2>
+        </div>
+        <a href="about.html#contact" class="inline-flex items-center gap-2 font-bold text-red-700">按企业阶段预约诊断 <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+      </div>
+      <div class="mt-10 grid gap-5 lg:grid-cols-4">
+        <section class="reveal border border-black/10 bg-white p-6">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl font-black text-red-700">01</span>
+            <i data-lucide="rocket" class="h-7 w-7 text-neutral-400"></i>
+          </div>
+          <h3 class="mt-5 text-xl font-black">扩张准备</h3>
+          <p class="mt-3 text-sm leading-7 text-neutral-600">先看模式、授权、费用、合同和培训交付是否能支撑加盟复制。</p>
+          <div class="mt-5 grid gap-2 text-sm font-bold">
+            <a href="service-detail.html?id=franchise" class="text-red-700">加盟体系搭建</a>
+            <a href="course-detail.html?id=expansion" class="text-neutral-700">扩张前法律体检</a>
+          </div>
+        </section>
+        <section class="reveal border border-black/10 bg-white p-6">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl font-black text-red-700">02</span>
+            <i data-lucide="megaphone" class="h-7 w-7 text-neutral-400"></i>
+          </div>
+          <h3 class="mt-5 text-xl font-black">招商成交</h3>
+          <p class="mt-3 text-sm leading-7 text-neutral-600">把招商话术、广告素材和签约文件统一到可审核、可追溯的流程里。</p>
+          <div class="mt-5 grid gap-2 text-sm font-bold">
+            <a href="article-detail.html?id=1" class="text-red-700">广告宣传合规机制</a>
+            <a href="course-detail.html?id=investment" class="text-neutral-700">招商合规训练营</a>
+          </div>
+        </section>
+        <section class="reveal border border-black/10 bg-white p-6">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl font-black text-red-700">03</span>
+            <i data-lucide="store" class="h-7 w-7 text-neutral-400"></i>
+          </div>
+          <h3 class="mt-5 text-xl font-black">门店运营</h3>
+          <p class="mt-3 text-sm leading-7 text-neutral-600">围绕证照、用工、投诉、食品安全和区域管理建立日常合规台账。</p>
+          <div class="mt-5 grid gap-2 text-sm font-bold">
+            <a href="service-detail.html?id=retainer-ledger" class="text-red-700">门店合规台账</a>
+            <a href="case-detail.html?id=food-safety" class="text-neutral-700">食品安全应急预案</a>
+          </div>
+        </section>
+        <section class="reveal border border-black/10 bg-white p-6">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl font-black text-red-700">04</span>
+            <i data-lucide="gavel" class="h-7 w-7 text-neutral-400"></i>
+          </div>
+          <h3 class="mt-5 text-xl font-black">争议响应</h3>
+          <p class="mt-3 text-sm leading-7 text-neutral-600">争议发生后先固定证据、统一口径，再选择调解、谈判或诉讼路径。</p>
+          <div class="mt-5 grid gap-2 text-sm font-bold">
+            <a href="service-detail.html?id=dispute" class="text-red-700">争议解决专项</a>
+            <a href="case-detail.html?id=education-refund" class="text-neutral-700">退费争议治理</a>
+          </div>
+        </section>
+      </div>
+    </section>
+
     <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
       <div class="reveal flex flex-col justify-between gap-5 md:flex-row md:items-end">
         <div>
-          <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Practice Areas</p>
+          <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">业务领域</p>
           <h2 class="mt-3 text-3xl font-black md:text-5xl">围绕连锁生命周期配置服务</h2>
         </div>
         <a href="services.html" class="inline-flex items-center gap-2 font-bold text-red-700">进入业务领域 <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
       </div>
       <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-        <article class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6">
+        <a href="service-detail.html?id=franchise" class="reveal card-hover block rounded-2xl border border-black/10 bg-white p-6 text-black no-underline">
           <i data-lucide="badge-check" class="h-8 w-8 text-red-700"></i>
           <h3 class="mt-5 text-xl font-black">专项服务</h3>
           <p class="mt-3 text-sm leading-7 text-neutral-600">加盟合规、股权架构、合同重构、危机处置等阶段性项目。</p>
-        </article>
-        <article class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6">
+        </a>
+        <a href="service-detail.html?id=retainer-contract" class="reveal card-hover block rounded-2xl border border-black/10 bg-white p-6 text-black no-underline">
           <i data-lucide="building-2" class="h-8 w-8 text-red-700"></i>
           <h3 class="mt-5 text-xl font-black">常法服务</h3>
           <p class="mt-3 text-sm leading-7 text-neutral-600">以月度法务台账、合同审核、用工咨询和管理会议为核心。</p>
-        </article>
-        <article class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6">
+        </a>
+        <a href="service-detail.html?id=dispute" class="reveal card-hover block rounded-2xl border border-black/10 bg-white p-6 text-black no-underline">
           <i data-lucide="file-warning" class="h-8 w-8 text-red-700"></i>
           <h3 class="mt-5 text-xl font-black">争议解决</h3>
           <p class="mt-3 text-sm leading-7 text-neutral-600">覆盖加盟纠纷、租赁纠纷、劳动争议和供应链争议。</p>
-        </article>
-        <article class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6">
+        </a>
+        <a href="course-detail.html?id=expansion" class="reveal card-hover block rounded-2xl border border-black/10 bg-white p-6 text-black no-underline">
           <i data-lucide="graduation-cap" class="h-8 w-8 text-red-700"></i>
           <h3 class="mt-5 text-xl font-black">课程培训</h3>
           <p class="mt-3 text-sm leading-7 text-neutral-600">面向创始人、区域经理、招商团队和门店负责人。</p>
-        </article>
+        </a>
       </div>
     </section>
 
     <section class="bg-[#f8f6f1] py-20">
       <div class="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[.9fr_1.1fr] lg:px-8">
         <div class="reveal">
-          <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Research</p>
+          <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">博望研究</p>
           <h2 class="mt-3 text-3xl font-black md:text-5xl">把复杂法规翻译成经营动作</h2>
           <p class="mt-5 leading-8 text-neutral-600">博望研究以原创文章、责任观点和业绩复盘沉淀行业方法论，为客户管理层提供可执行的法律判断。</p>
           <a href="research.html" class="mt-8 inline-flex items-center gap-2 rounded-full bg-black px-5 py-3 font-bold text-white hover:bg-red-700">查看研究文章 <i data-lucide="book-open" class="h-4 w-4"></i></a>
         </div>
         <div class="grid gap-4">
-          <a href="research.html#articles" class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6">
+          <a href="article-detail.html?id=0" class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6 text-black no-underline">
             <p class="text-xs font-bold text-red-700">博望观察</p>
             <h3 class="mt-2 text-2xl font-black">直营转加盟时，合同体系最容易忽略的 6 个风险</h3>
             <p class="mt-3 text-sm leading-7 text-neutral-600">从授权边界、装修标准、履约考核到退出机制，梳理扩张前的法务底盘。</p>
           </a>
-          <a href="research.html#articles" class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6">
+          <a href="article-detail.html?id=1" class="reveal card-hover rounded-2xl border border-black/10 bg-white p-6 text-black no-underline">
             <p class="text-xs font-bold text-red-700">博望责任</p>
             <h3 class="mt-2 text-2xl font-black">连锁品牌如何建立广告宣传合规审查机制</h3>
             <p class="mt-3 text-sm leading-7 text-neutral-600">用“素材库、审批流、禁用词、留痕表”降低门店端宣传风险。</p>
@@ -267,46 +391,85 @@
 
     <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
       <div class="reveal text-center">
-        <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Team</p>
+        <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">博望团队</p>
         <h2 class="mt-3 text-3xl font-black md:text-5xl">项目制律师团队，匹配连锁业务节奏</h2>
       </div>
       <div class="mt-10 grid gap-5 md:grid-cols-3">
-        <article class="reveal card-hover overflow-hidden rounded-2xl border border-black/10 bg-white">
+        <a href="team-detail.html?id=lin" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline">
           <img class="h-64 w-full object-cover" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="律师团队负责人演示图">
           <div class="p-6">
             <p class="text-xs font-bold text-red-700">首席合伙人</p>
             <h3 class="mt-1 text-2xl font-black">林正远</h3>
             <p class="mt-3 text-sm leading-7 text-neutral-600">专注连锁经营、加盟合规与商事争议解决，负责重大项目策略。</p>
           </div>
-        </article>
-        <article class="reveal card-hover overflow-hidden rounded-2xl border border-black/10 bg-white">
+        </a>
+        <a href="team-detail.html?id=zhou" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline">
           <img class="h-64 w-full object-cover" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="企业合规律师演示图">
           <div class="p-6">
             <p class="text-xs font-bold text-red-700">高级律师</p>
             <h3 class="mt-1 text-2xl font-black">周若宁</h3>
             <p class="mt-3 text-sm leading-7 text-neutral-600">擅长劳动用工、广告合规和门店运营制度建设。</p>
           </div>
-        </article>
-        <article class="reveal card-hover overflow-hidden rounded-2xl border border-black/10 bg-white">
+        </a>
+        <a href="team-detail.html?id=chen" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline">
           <img class="h-64 w-full object-cover" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="争议解决律师演示图">
           <div class="p-6">
             <p class="text-xs font-bold text-red-700">争议解决律师</p>
             <h3 class="mt-1 text-2xl font-black">陈宇航</h3>
             <p class="mt-3 text-sm leading-7 text-neutral-600">处理加盟纠纷、租赁争议、供应链合同纠纷和执行谈判。</p>
           </div>
-        </article>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-[#f8f6f1] py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="reveal flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div>
+            <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">博望课堂</p>
+            <h2 class="mt-3 text-3xl font-black md:text-5xl">把法律风险前置到管理动作里</h2>
+          </div>
+          <a href="classroom.html" class="inline-flex items-center gap-2 font-bold text-red-700">进入博望课堂 <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+        </div>
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <a href="course-detail.html?id=expansion" class="reveal card-hover block overflow-hidden rounded-2xl bg-white text-black no-underline">
+            <img class="h-56 w-full object-cover" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="扩张前法律体检课程演示图">
+            <div class="p-6">
+              <p class="text-xs font-bold text-red-700">课程体系</p>
+              <h3 class="mt-2 text-2xl font-black">扩张前法律体检</h3>
+              <p class="mt-3 text-sm leading-7 text-neutral-600">面向创始人与加盟负责人，梳理模式、授权、费用、合同与退出机制。</p>
+            </div>
+          </a>
+          <a href="course-detail.html?id=investment" class="reveal card-hover block overflow-hidden rounded-2xl bg-white text-black no-underline">
+            <img class="h-56 w-full object-cover" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="招商合规训练营演示图">
+            <div class="p-6">
+              <p class="text-xs font-bold text-red-700">课程体系</p>
+              <h3 class="mt-2 text-2xl font-black">招商合规训练营</h3>
+              <p class="mt-3 text-sm leading-7 text-neutral-600">训练招商话术边界、素材审核、客户沟通记录和证据留存。</p>
+            </div>
+          </a>
+          <a href="course-detail.html?id=store-risk" class="reveal card-hover block overflow-hidden rounded-2xl bg-white text-black no-underline">
+            <img class="h-56 w-full object-cover" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="门店经营风险课演示图">
+            <div class="p-6">
+              <p class="text-xs font-bold text-red-700">课程体系</p>
+              <h3 class="mt-2 text-2xl font-black">门店经营风险课</h3>
+              <p class="mt-3 text-sm leading-7 text-neutral-600">覆盖广告、用工、投诉、食品安全和证照管理等高频门店场景。</p>
+            </div>
+          </a>
+        </div>
       </div>
     </section>
 
     <section class="bg-black py-20 text-white">
       <div class="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[.95fr_1.05fr] lg:px-8">
         <div class="reveal">
-          <p class="text-sm font-black uppercase tracking-[.28em] text-red-300">Cases</p>
+          <p class="text-sm font-black uppercase tracking-[.28em] text-red-300">服务案例</p>
           <h2 class="mt-3 text-3xl font-black md:text-5xl">用结果验证服务颗粒度</h2>
           <p class="mt-5 leading-8 text-white/70">以下为静态页面演示数据，用于展示官网案例呈现方式。</p>
+          <a href="cases.html" class="mt-8 inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 font-bold text-white hover:bg-white hover:text-black">查看全部案例 <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
         </div>
         <div class="grid gap-4">
-          <a href="cases.html" class="reveal rounded-2xl border border-white/15 bg-white/8 p-6 hover:bg-white hover:text-black">
+          <a href="case-detail.html?id=restaurant-contract" class="reveal rounded-2xl border border-white/15 bg-white/8 p-6 text-white no-underline hover:bg-white hover:text-black">
             <div class="flex items-start justify-between gap-5">
               <div>
                 <p class="text-xs font-bold text-red-300">餐饮连锁</p>
@@ -315,7 +478,7 @@
               <i data-lucide="arrow-up-right" class="h-5 w-5"></i>
             </div>
           </a>
-          <a href="cases.html" class="reveal rounded-2xl border border-white/15 bg-white/8 p-6 hover:bg-white hover:text-black">
+          <a href="case-detail.html?id=education-refund" class="reveal rounded-2xl border border-white/15 bg-white/8 p-6 text-white no-underline hover:bg-white hover:text-black">
             <div class="flex items-start justify-between gap-5">
               <div>
                 <p class="text-xs font-bold text-red-300">教育连锁</p>
@@ -324,6 +487,26 @@
               <i data-lucide="arrow-up-right" class="h-5 w-5"></i>
             </div>
           </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="reveal grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+        <div>
+          <p class="text-sm font-black uppercase tracking-[.28em] text-red-700">关于我们</p>
+          <h2 class="mt-3 text-3xl font-black md:text-5xl">长期服务连锁品牌的法律增长伙伴</h2>
+          <p class="mt-5 leading-8 text-neutral-600">博望连锁法务团队以专项服务、常年顾问、争议解决和企业内训为核心，为餐饮、教育、零售、生活服务等连锁场景提供可落地的法律支持。</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="about.html" class="inline-flex items-center gap-2 rounded-full bg-black px-5 py-3 font-bold text-white hover:bg-red-700">了解团队 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+            <a href="about.html#contact" class="inline-flex items-center gap-2 rounded-full border border-black/15 px-5 py-3 font-bold hover:border-red-700 hover:text-red-700">预约咨询 <i data-lucide="send" class="h-4 w-4"></i></a>
+          </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="border border-black/10 bg-[#f8f6f1] p-6"><p class="text-4xl font-black">326</p><p class="mt-2 text-sm text-neutral-600">门店合规节点示例</p></div>
+          <div class="border border-black/10 bg-[#f8f6f1] p-6"><p class="text-4xl font-black">18</p><p class="mt-2 text-sm text-neutral-600">合同模板示例</p></div>
+          <div class="border border-black/10 bg-[#f8f6f1] p-6"><p class="text-4xl font-black">7×24</p><p class="mt-2 text-sm text-neutral-600">紧急争议响应</p></div>
+          <div class="border border-black/10 bg-[#f8f6f1] p-6"><p class="text-4xl font-black">4</p><p class="mt-2 text-sm text-neutral-600">季度合规复盘</p></div>
         </div>
       </div>
     </section>
@@ -344,26 +527,25 @@
   </main>
 
   <footer class="border-t border-black/10 bg-[#f8f6f1]">
-    <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 md:grid-cols-[1.2fr_.8fr_.8fr] lg:px-8">
-      <div>
-        <img src="logo.png" alt="博望连锁法务团队" class="h-10 w-auto">
-        <p class="mt-4 max-w-md text-sm leading-7 text-neutral-600">静态演示官网。页面内容、律师姓名、案例数据均为展示用模拟信息。</p>
-      </div>
-      <div>
-        <h3 class="font-black">栏目导航</h3>
-        <div class="mt-4 grid gap-2 text-sm text-neutral-600">
-          <a href="services.html">业务领域</a>
-          <a href="research.html">博望研究</a>
-          <a href="classroom.html">博望课堂</a>
+    <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <div class="max-w-xl">
+          <img src="logo.png" alt="博望连锁法务团队" class="h-10 w-auto">
+          <p class="mt-4 text-sm leading-7 text-neutral-600">静态演示官网。页面内容、律师姓名、案例数据均为展示用模拟信息。</p>
         </div>
+        <nav class="flex flex-wrap gap-x-8 gap-y-3 text-sm font-black text-neutral-800">
+          <a href="services.html" class="hover:text-red-700">业务领域</a>
+          <a href="research.html" class="hover:text-red-700">博望研究</a>
+          <a href="team.html" class="hover:text-red-700">博望团队</a>
+          <a href="classroom.html" class="hover:text-red-700">博望课堂</a>
+          <a href="cases.html" class="hover:text-red-700">服务案例</a>
+          <a href="about.html" class="hover:text-red-700">关于我们</a>
+        </nav>
       </div>
-      <div>
-        <h3 class="font-black">联系信息</h3>
-        <div class="mt-4 grid gap-2 text-sm text-neutral-600">
-          <span>400-800-2026</span>
-          <span>contact@bowang-law.demo</span>
-          <span>上海市浦东新区世纪大道 88 号</span>
-        </div>
+      <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-black/10 pt-6 text-sm text-neutral-600">
+        <span>400-800-2026</span>
+        <span>contact@bowang-law.demo</span>
+        <span>上海市浦东新区世纪大道 88 号</span>
       </div>
     </div>
   </footer>
@@ -376,6 +558,110 @@
     const menuButton = document.querySelector("[data-menu]");
     const mobileNav = document.getElementById("mobileNav");
     menuButton?.addEventListener("click", () => mobileNav.classList.toggle("hidden"));
+
+    const hubData = {
+      expansion: {
+        eyebrow: "Expansion Track",
+        title: "开放加盟前，把合同和运营规则先跑通",
+        desc: "适合直营转加盟、区域代理调整、单店模型复制等阶段。首页直接把业务详情、研究文章、负责人、课程和案例串成一条可点击路径。",
+        image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=82",
+        metrics: [["12", "核心文件"], ["20天", "示例周期"], ["4", "会议节点"]],
+        route: ["先看加盟体系搭建", "再读直营转加盟准备清单", "安排扩张前法律体检课程", "参考 72 家门店合同重构案例"],
+        links: [
+          ["业务领域", "加盟体系搭建", "service-detail.html?id=franchise", "network"],
+          ["博望研究", "直营转加盟法律准备", "article-detail.html?id=0", "book-open"],
+          ["博望团队", "林正远｜首席合伙人", "team-detail.html?id=lin", "user-check"],
+          ["博望课堂", "扩张前法律体检", "course-detail.html?id=expansion", "graduation-cap"],
+          ["服务案例", "72 家门店合同体系重构", "case-detail.html?id=restaurant-contract", "briefcase"]
+        ]
+      },
+      marketing: {
+        eyebrow: "Marketing Compliance",
+        title: "把招商话术、广告素材和证据留痕放到同一套审查流",
+        desc: "招商材料和门店宣传往往最容易突破合同边界。这里把广告合规服务、责任文章、招商课程和团队支持聚合在一起。",
+        image: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=1200&q=82",
+        metrics: [["6", "渠道覆盖"], ["120+", "敏感词"], ["2", "审查流程"]],
+        route: ["先建立广告宣传审查表", "同步门店和招商团队话术红线", "用训练营做情景演练", "沉淀素材版本与沟通留痕"],
+        links: [
+          ["业务领域", "广告宣传合规", "service-detail.html?id=ad", "shield-alert"],
+          ["博望研究", "广告用语事前防控", "article-detail.html?id=1", "book-open"],
+          ["博望团队", "周若宁｜高级律师", "team-detail.html?id=zhou", "user-check"],
+          ["博望课堂", "招商合规训练营", "course-detail.html?id=investment", "graduation-cap"],
+          ["服务案例", "区域代理授权边界调整", "case-detail.html?id=regional-agent", "briefcase"]
+        ]
+      },
+      store: {
+        eyebrow: "Store Governance",
+        title: "门店经营风险，用台账和训练替代临场经验",
+        desc: "围绕证照、广告、用工、消费者投诉、食品安全和监管沟通，给总部、区域和门店建立共同语言。",
+        image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=82",
+        metrics: [["7", "台账模块"], ["30", "检查项"], ["季度", "复盘节奏"]],
+        route: ["先建立门店合规台账", "给区域经理做情景培训", "重点处理食品安全和投诉证据", "用案例复盘更新制度"],
+        links: [
+          ["业务领域", "门店合规台账", "service-detail.html?id=retainer-ledger", "clipboard-check"],
+          ["博望研究", "区域经理法务培训设计", "article-detail.html?id=4", "book-open"],
+          ["博望团队", "周若宁｜用工与广告合规", "team-detail.html?id=zhou", "user-check"],
+          ["博望课堂", "门店经营风险课", "course-detail.html?id=store-risk", "graduation-cap"],
+          ["服务案例", "门店食品安全应急预案", "case-detail.html?id=food-safety", "briefcase"]
+        ]
+      },
+      dispute: {
+        eyebrow: "Dispute Response",
+        title: "争议出现后，先统一证据、口径和授权边界",
+        desc: "加盟商集中投诉、供应链违约、租赁冲突或退费争议发生时，首页直接给出专项服务、文章复盘和处理团队入口。",
+        image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=82",
+        metrics: [["24h", "紧急响应"], ["4", "争议分级"], ["1套", "证据清单"]],
+        route: ["先固定合同和沟通证据", "按诉求和证据强弱分层", "设置谈判底线和授权范围", "必要时进入诉讼仲裁衔接"],
+        links: [
+          ["业务领域", "争议解决专项", "service-detail.html?id=dispute", "gavel"],
+          ["博望研究", "加盟纠纷批量调解复盘", "article-detail.html?id=2", "book-open"],
+          ["博望团队", "陈宇航｜争议解决律师", "team-detail.html?id=chen", "user-check"],
+          ["博望课堂", "争议处理工作坊", "course-detail.html?id=dispute-workshop", "graduation-cap"],
+          ["服务案例", "校区退费争议治理", "case-detail.html?id=education-refund", "briefcase"]
+        ]
+      },
+      assets: {
+        eyebrow: "Brand Assets",
+        title: "品牌资产不是一份证书，而是可控的授权和信息边界",
+        desc: "商标、版权、商业秘密、供应链价格、选址模型和招商话术都需要分级管理，避免扩张后被复制、误用或泄露。",
+        image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=1200&q=82",
+        metrics: [["5", "资产类别"], ["3级", "权限分层"], ["90天", "升级路线"]],
+        route: ["先做信息资产盘点", "区分授权、保密和使用边界", "把合同模板和权限管理同步升级", "用闭门课推动管理层共识"],
+        links: [
+          ["业务领域", "合同体系重构", "service-detail.html?id=contract", "files"],
+          ["博望研究", "商业秘密保护方法", "article-detail.html?id=3", "book-open"],
+          ["博望团队", "沈明悦｜知识产权顾问", "team-detail.html?id=shen", "user-check"],
+          ["博望课堂", "品牌扩张前法律体检闭门课", "course-detail.html?id=review-hangzhou", "graduation-cap"],
+          ["服务案例", "供应链采购合同风险治理", "case-detail.html?id=supply-chain", "briefcase"]
+        ]
+      }
+    };
+
+    const renderHub = (key) => {
+      const item = hubData[key] || hubData.expansion;
+      const image = document.getElementById("hubImage");
+      image?.classList.add("is-swapping");
+      window.setTimeout(() => {
+        if (image) {
+          image.src = item.image;
+          image.alt = item.title + "演示图";
+          image.classList.remove("is-swapping");
+        }
+      }, 110);
+      document.getElementById("hubEyebrow").textContent = item.eyebrow;
+      document.getElementById("hubTitle").textContent = item.title;
+      document.getElementById("hubDesc").textContent = item.desc;
+      document.getElementById("hubMetrics").innerHTML = item.metrics.map(([value, label]) => `<div class="border border-black/10 bg-[#f8f6f1] p-4"><p class="text-2xl font-black">${value}</p><p class="mt-1 text-xs text-neutral-500">${label}</p></div>`).join("");
+      document.getElementById("hubRoute").innerHTML = item.route.map((step, index) => `<div class="flex items-center gap-3 text-sm"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black text-xs font-black text-white">${index + 1}</span><span class="font-semibold text-neutral-700">${step}</span></div>`).join("");
+      document.getElementById("hubLinks").innerHTML = item.links.map(([type, title, href, icon]) => `<a href="${href}" class="group flex items-start gap-3 border border-black/10 p-4 text-black no-underline hover:border-red-700 hover:bg-[#f8f6f1]"><i data-lucide="${icon}" class="mt-1 h-5 w-5 shrink-0 text-red-700"></i><span><span class="block text-xs font-bold text-red-700">${type}</span><span class="mt-1 block text-sm font-black leading-6">${title}</span></span><i data-lucide="arrow-up-right" class="ml-auto h-4 w-4 shrink-0 text-neutral-400 group-hover:text-red-700"></i></a>`).join("");
+      document.querySelectorAll("[data-hub]").forEach((button) => button.classList.toggle("is-active", button.dataset.hub === key));
+      window.lucide?.createIcons();
+    };
+
+    document.querySelectorAll("[data-hub]").forEach((button) => {
+      button.addEventListener("click", () => renderHub(button.dataset.hub));
+    });
+    renderHub("expansion");
 
     const reveals = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver((entries) => {

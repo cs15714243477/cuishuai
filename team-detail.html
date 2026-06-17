@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>团队详情｜博望团队</title>
+  <meta name="description" content="博望团队成员详情演示页面。">
+  <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
+  <script src="https://unpkg.com/lucide@1.20.0/dist/umd/lucide.js"></script>
+  <style>
+    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink);background:#fff}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.reveal.show{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body class="antialiased">
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass"><div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8"><a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a><nav class="hidden items-center gap-7 text-sm font-semibold lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link active" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link" href="about.html">关于我们</a></nav><a href="about.html#contact" class="hidden rounded-full bg-black px-5 py-2 text-sm font-bold text-white hover:bg-red-700 lg:inline-flex">预约咨询</a><button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button></div><div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-sm font-semibold"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div></header>
+  <main class="pt-24">
+    <section class="mx-auto grid max-w-7xl gap-10 px-5 py-14 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
+      <div class="reveal"><img id="photo" class="h-[520px] w-full object-cover" alt="团队成员演示图"></div>
+      <div class="reveal self-center">
+        <a href="team.html" class="inline-flex items-center gap-2 rounded-full border border-black/15 px-4 py-2 text-sm font-bold hover:border-red-700 hover:text-red-700"><i data-lucide="arrow-left" class="h-4 w-4"></i> 返回团队</a>
+        <p id="role" class="mt-10 text-sm font-black uppercase tracking-[.28em] text-red-700"></p>
+        <h1 id="name" class="mt-3 text-4xl font-black md:text-6xl"></h1>
+        <p id="intro" class="mt-6 max-w-2xl text-lg leading-9 text-neutral-700"></p>
+        <div id="tags" class="mt-8 flex flex-wrap gap-2"></div>
+      </div>
+    </section>
+    <section class="bg-[#f8f6f1] py-16"><div class="mx-auto grid max-w-7xl gap-6 px-5 lg:grid-cols-3 lg:px-8" id="details"></div></section>
+    <section class="border-y border-black/10 bg-black text-white"><div class="mx-auto grid max-w-7xl gap-4 px-5 py-8 md:grid-cols-3 lg:px-8"><a id="prevLink" class="group border border-white/20 p-5 hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">上一位</p><h3 id="prevTitle" class="mt-2 text-xl font-black"></h3></a><div class="flex items-center justify-center border border-white/20 p-5 text-center"><span id="counter" class="text-sm font-black tracking-[.24em] text-white/70"></span></div><a id="nextLink" class="group border border-white/20 p-5 text-right hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">下一位</p><h3 id="nextTitle" class="mt-2 text-xl font-black"></h3></a></div></section>
+  </main>
+  <footer class="border-t border-black/10 bg-[#f8f6f1]"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>团队资料为静态演示数据</span></div></footer>
+  <script>
+    const people=[
+      {id:"lin",name:"林正远",role:"首席合伙人",photo:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80",intro:"专注连锁经营、加盟合规与重大商事争议，负责复杂项目的整体策略和关键谈判。",tags:["加盟体系","争议策略","商事诉讼"],details:[["代表经验","曾为餐饮、零售和教育品牌提供扩张期法务体系设计。"],["服务方式","在项目前期参与商业模式讨论，将法律边界转化为可执行规则。"],["近期关注","直营转加盟、区域代理冲突、加盟退出机制。"]]},
+      {id:"zhou",name:"周若宁",role:"高级律师",photo:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=80",intro:"擅长门店劳动用工、广告宣传合规和合同模板管理，负责常法服务台账和培训课程设计。",tags:["用工合规","广告审查","合同模板"],details:[["代表经验","为多区域连锁品牌建立门店用工风险台账。"],["服务方式","将合规建议拆成门店端可执行的检查动作。"],["近期关注","短视频宣传、门店招聘、消费者投诉。"]]},
+      {id:"chen",name:"陈宇航",role:"争议解决律师",photo:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80",intro:"处理加盟争议、供应链纠纷、租赁谈判和执行案件，擅长批量案件的证据分层管理。",tags:["诉讼仲裁","谈判","执行"],details:[["代表经验","参与加盟纠纷批量调解和供应商违约索赔。"],["服务方式","先做证据强弱分级，再确定谈判与诉讼路径。"],["近期关注","租赁解除、区域代理违约、供应链质量争议。"]]},
+      {id:"shen",name:"沈明悦",role:"知识产权顾问",photo:"https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=900&q=80",intro:"负责商标布局、版权保护、商业秘密和品牌授权，支持品牌扩张中的资产保护。",tags:["商标版权","商业秘密","品牌授权"],details:[["代表经验","为连锁品牌梳理商标类别和授权使用规则。"],["服务方式","将品牌资产分级，明确授权、使用、回收和留痕要求。"],["近期关注","加盟商侵权、供应链信息保护、培训资料版权。"]]},
+      {id:"xu",name:"许以辰",role:"项目经理",photo:"https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=80",intro:"负责客户需求收口、交付排期、资料清单和会议纪要，确保专项服务按节点推进。",tags:["项目管理","客户成功","交付排期"],details:[["代表经验","参与多个加盟体系和合同重构项目的交付管理。"],["服务方式","用节点表、材料清单和纪要推动项目闭环。"],["近期关注","项目资料协同、跨部门会议、交付验收。"]]},
+      {id:"tang",name:"唐亦安",role:"培训顾问",photo:"https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=900&q=80",intro:"将法律风险转化为管理语言，设计招商、运营、区域管理等不同岗位课程。",tags:["课程设计","内训","情景演练"],details:[["代表经验","设计招商话术、门店投诉和区域经理风险课程。"],["服务方式","用真实案例和情景题帮助一线团队掌握边界。"],["近期关注","岗位化课程、课后测评、合规手册。"]]}
+    ];
+    const params=new URLSearchParams(location.search);let i=people.findIndex(p=>p.id===(params.get("id")||"lin"));if(i<0)i=0;const item=people[i];document.title=item.name+"｜博望团队";photo.src=item.photo;role.textContent=item.role;name.textContent=item.name;intro.textContent=item.intro;tags.innerHTML=item.tags.map(t=>`<span class="rounded-full bg-[#f8f6f1] px-4 py-2 text-sm font-bold">${t}</span>`).join("");details.innerHTML=item.details.map(d=>`<section class="border border-black/10 bg-white p-6"><p class="text-xs font-black uppercase tracking-[.24em] text-red-700">${d[0]}</p><p class="mt-4 leading-8 text-neutral-700">${d[1]}</p></section>`).join("");const prev=people[(i-1+people.length)%people.length],next=people[(i+1)%people.length];prevLink.href=`team-detail.html?id=${prev.id}`;nextLink.href=`team-detail.html?id=${next.id}`;prevTitle.textContent=prev.name;nextTitle.textContent=next.name;counter.textContent=`${i+1} / ${people.length}`;document.querySelector("[data-menu]")?.addEventListener("click",()=>mobileNav.classList.toggle("hidden"));const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));window.lucide?.createIcons();
+  </script>
+</body>
+</html>

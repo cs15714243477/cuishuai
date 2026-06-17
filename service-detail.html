@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>业务详情｜博望连锁法务团队</title>
+  <meta name="description" content="博望连锁法务团队业务详情演示页面。">
+  <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
+  <script src="https://unpkg.com/lucide@1.20.0/dist/umd/lucide.js"></script>
+  <style>
+    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink);background:#fff}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.hero{background-image:linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.42)),var(--hero);background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.reveal.show{opacity:1;transform:translateY(0)}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body class="antialiased">
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+      <a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a>
+      <nav class="hidden items-center gap-7 text-sm font-semibold lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link active" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link" href="about.html">关于我们</a></nav>
+      <a href="about.html#contact" class="hidden rounded-full bg-black px-5 py-2 text-sm font-bold text-white hover:bg-red-700 lg:inline-flex">预约咨询</a>
+      <button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button>
+    </div>
+    <div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-sm font-semibold"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero pt-32 text-white">
+      <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <a href="services.html" class="inline-flex items-center gap-2 rounded-full border border-white/35 px-4 py-2 text-sm font-bold text-white/90 hover:bg-white hover:text-black"><i data-lucide="arrow-left" class="h-4 w-4"></i> 返回业务领域</a>
+        <p id="category" class="mt-10 text-sm font-black uppercase tracking-[.28em] text-red-200"></p>
+        <h1 id="title" class="mt-4 max-w-4xl text-4xl font-black leading-tight md:text-6xl"></h1>
+        <p id="intro" class="mt-6 max-w-3xl text-lg leading-8 text-white/78"></p>
+      </div>
+    </section>
+
+    <section class="mx-auto grid max-w-7xl gap-8 px-5 py-16 lg:grid-cols-[1fr_340px] lg:px-8">
+      <article class="reveal">
+        <div id="stats" class="grid gap-4 md:grid-cols-3"></div>
+        <div id="sections" class="mt-8 grid gap-6"></div>
+      </article>
+      <aside class="reveal lg:sticky lg:top-28 lg:self-start">
+        <div class="border border-black/10 bg-[#f8f6f1] p-6">
+          <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Deliverables</p>
+          <h2 class="mt-3 text-2xl font-black">交付清单</h2>
+          <ul id="deliverables" class="mt-5 grid gap-3 text-sm leading-7 text-neutral-700"></ul>
+          <a href="about.html#contact" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-3 font-bold text-white hover:bg-red-700">咨询该服务 <i data-lucide="send" class="h-4 w-4"></i></a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="border-y border-black/10 bg-black text-white">
+      <div class="mx-auto grid max-w-7xl gap-4 px-5 py-8 md:grid-cols-3 lg:px-8">
+        <a id="prevLink" class="group border border-white/20 p-5 hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">上一项</p><h3 id="prevTitle" class="mt-2 text-xl font-black"></h3></a>
+        <div class="flex items-center justify-center border border-white/20 p-5 text-center"><span id="counter" class="text-sm font-black tracking-[.24em] text-white/70"></span></div>
+        <a id="nextLink" class="group border border-white/20 p-5 text-right hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">下一项</p><h3 id="nextTitle" class="mt-2 text-xl font-black"></h3></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-black/10 bg-[#f8f6f1]"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>业务详情为静态演示数据</span></div></footer>
+
+  <script>
+    const services = [
+      {id:"franchise",category:"Special Project",title:"加盟体系搭建",intro:"帮助连锁品牌在开放加盟前完成交易结构、授权边界、费用模型和履约机制设计，让招商扩张有清晰的法律底盘。",image:"https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2200&q=85",stats:[["20","工作日示例周期"],["12","核心文件清单"],["4","关键会议节点"]],deliverables:["加盟协议与补充条款","招商话术红线清单","加盟商准入与退出规则","授权边界与商圈保护方案"],sections:[["服务场景","适用于直营转加盟、区域代理调整、单店加盟升级等阶段。团队会先梳理商业模式，再把费用、授权、培训、采购、装修、履约考核等规则写入合同和管理制度。"],["工作方法","以业务访谈、文件审阅、风险清单、模板交付四步推进。每个节点都有会议纪要和待办清单，方便管理层快速决策。"],["演示成果","形成一套可被招商、运营、财务和法务共同使用的加盟文件包，降低口头承诺、授权不清和退出争议。"]]},
+      {id:"contract",category:"Special Project",title:"合同体系重构",intro:"围绕加盟、采购、租赁、人事、营销和供应链场景，重建连锁企业的合同模板与审批口径。",image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2200&q=85",stats:[["18","模板示例"],["64","风险条款"],["3","审批层级"]],deliverables:["合同模板库","高频条款说明书","审批权限矩阵","历史合同风险复盘表"],sections:[["服务场景","适合门店数量增长后合同来源分散、条款口径不一致、审批链条不清晰的连锁品牌。"],["工作方法","先归并历史合同和争议案例，再按交易场景统一模板、附件和审批规则。"],["演示成果","让业务部门能快速选用模板，让管理层能看见高风险条款，让合同从文件变成管理工具。"]]},
+      {id:"ad",category:"Special Project",title:"广告宣传合规",intro:"为小程序、公众号、短视频、门店物料和招商材料建立宣传审查机制，降低虚假宣传和承诺过度风险。",image:"https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=1600&q=82",stats:[["6","渠道覆盖"],["120+","敏感词示例"],["2","审查流程"]],deliverables:["宣传合规审查表","敏感词与高危表述库","门店素材留痕规则","招商材料审核意见"],sections:[["服务场景","适用于招商推广、活动营销、门店海报、直播脚本和社媒内容快速增长的品牌。"],["工作方法","通过素材盘点建立风险分级，把法务意见变成可执行的审批流和禁用词库。"],["演示成果","让总部、区域和门店知道哪些话能说、哪些材料要留痕、哪些宣传必须先审。"]]},
+      {id:"dispute",category:"Special Project",title:"争议解决专项",intro:"覆盖加盟纠纷、供应链争议、租赁纠纷、劳动争议和消费者投诉升级，帮助企业以统一证据和口径处理争议。",image:"https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=2200&q=85",stats:[["24h","紧急响应"],["4","争议分级"],["1套","证据清单"]],deliverables:["争议事实梳理表","证据材料清单","谈判与诉讼策略备忘","和解协议或诉讼文件"],sections:[["服务场景","适用于加盟商集中投诉、供应商违约、门店租赁冲突、员工争议和舆情事件升级。"],["工作方法","先做事实和证据分层，再确定沟通、调解、诉讼或仲裁路径，所有对外口径均与管理层授权一致。"],["演示成果","让业务团队知道哪些材料要先固定、哪些表达需要避免、何时进入法务主导程序。"]]},
+      {id:"retainer-contract",category:"Retainer",title:"合同审核与谈判支持",intro:"在常年顾问服务中为日常合同提供响应、修改、谈判建议和风险等级判断。",image:"https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=82",stats:[["48h","常规响应"],["5","合同类型"],["A-D","风险等级"]],deliverables:["合同修改稿","风险等级说明","谈判要点清单","月度合同问题汇总"],sections:[["服务场景","覆盖加盟、采购、租赁、合作营销、人事用工等日常交易文件。"],["工作方法","按风险等级快速拆分必改、建议改和可接受条款，帮助业务提高谈判效率。"],["演示成果","减少反复沟通，把合同审核结果沉淀成可复用的业务口径。"]]},
+      {id:"retainer-ledger",category:"Retainer",title:"门店合规台账",intro:"以门店经营场景为单位建立证照、广告、人员、投诉和监管事项的合规台账。",image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=82",stats:[["7","台账模块"],["30","检查项示例"],["季度","复盘节奏"]],deliverables:["门店检查清单","合规台账模板","整改闭环表","区域风险汇总"],sections:[["服务场景","适合门店分散、区域经理口径不一、投诉和监管事项难以沉淀的品牌。"],["工作方法","把法律要求拆成门店可执行动作，通过月度抽查和季度复盘持续更新。"],["演示成果","让合规状态从经验判断变成可追踪、可复盘、可交接的数据。"]]},
+      {id:"retainer-meeting",category:"Retainer",title:"管理层月度法务会",intro:"用固定会议机制复盘高频咨询、未闭环事项和下月风险重点，把法律服务嵌入经营节奏。",image:"https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=82",stats:[["1","月度会议"],["3","风险主题"],["10","待办上限"]],deliverables:["会议纪要","风险雷达图","下月法务待办","管理层决策备忘"],sections:[["服务场景","适合希望让法务从被动响应转向主动管理的连锁品牌。"],["工作方法","每月围绕合同、用工、门店、争议和宣传五类问题提炼趋势和建议。"],["演示成果","管理层能用一张清单看清当月风险、负责人和闭环状态。"]]}
+    ];
+    const params = new URLSearchParams(location.search);
+    const key = params.get("id") || services[0].id;
+    let index = services.findIndex(item => item.id === key);
+    if (index < 0) index = 0;
+    const item = services[index];
+    document.title = item.title + "｜业务详情｜博望连锁法务团队";
+    document.documentElement.style.setProperty("--hero", `url("${item.image}")`);
+    document.getElementById("category").textContent = item.category;
+    document.getElementById("title").textContent = item.title;
+    document.getElementById("intro").textContent = item.intro;
+    document.getElementById("stats").innerHTML = item.stats.map(s => `<div class="border border-black/10 bg-[#f8f6f1] p-5"><p class="text-4xl font-black">${s[0]}</p><p class="mt-2 text-sm text-neutral-600">${s[1]}</p></div>`).join("");
+    document.getElementById("sections").innerHTML = item.sections.map(s => `<section class="border border-black/10 p-6 md:p-8"><p class="text-xs font-black uppercase tracking-[.24em] text-red-700">${s[0]}</p><p class="mt-4 text-lg leading-9 text-neutral-700">${s[1]}</p></section>`).join("");
+    document.getElementById("deliverables").innerHTML = item.deliverables.map(d => `<li class="flex gap-2"><i data-lucide="check-circle-2" class="mt-1 h-4 w-4 shrink-0 text-red-700"></i><span>${d}</span></li>`).join("");
+    const prev = services[(index - 1 + services.length) % services.length];
+    const next = services[(index + 1) % services.length];
+    document.getElementById("prevLink").href = `service-detail.html?id=${prev.id}`;
+    document.getElementById("nextLink").href = `service-detail.html?id=${next.id}`;
+    document.getElementById("prevTitle").textContent = prev.title;
+    document.getElementById("nextTitle").textContent = next.title;
+    document.getElementById("counter").textContent = `${index + 1} / ${services.length}`;
+    document.querySelector("[data-menu]")?.addEventListener("click",()=>document.getElementById("mobileNav").classList.toggle("hidden"));
+    const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+    window.lucide?.createIcons();
+  </script>
+</body>
+</html>
