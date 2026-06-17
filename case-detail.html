@@ -51,11 +51,17 @@
       </aside>
     </section>
 
-    <section class="border-y border-black/10 bg-black text-white">
-      <div class="mx-auto grid max-w-7xl gap-4 px-5 py-8 md:grid-cols-3 lg:px-8">
-        <a id="prevLink" class="group border border-white/20 p-5 hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">上一案</p><h3 id="prevTitle" class="mt-2 text-xl font-black"></h3></a>
-        <div class="flex items-center justify-center border border-white/20 p-5 text-center"><span id="counter" class="text-sm font-black tracking-[.24em] text-white/70"></span></div>
-        <a id="nextLink" class="group border border-white/20 p-5 text-right hover:bg-white hover:text-black" href="#"><p class="text-xs font-bold text-white/55 group-hover:text-black/55">下一案</p><h3 id="nextTitle" class="mt-2 text-xl font-black"></h3></a>
+    <section class="bg-[#f8f6f1] py-12">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Case Pagination</p>
+          <span id="counter" class="rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-black text-neutral-700"></span>
+        </div>
+        <div class="grid gap-4 md:grid-cols-[1fr_auto_1fr]">
+          <a id="prevLink" class="group flex min-h-[150px] flex-col justify-between border border-black/10 bg-white p-6 text-black no-underline hover:border-red-700 hover:shadow-xl hover:shadow-black/5" href="#"><span class="inline-flex items-center gap-2 text-sm font-black text-neutral-500 group-hover:text-red-700"><i data-lucide="arrow-left" class="h-4 w-4"></i> 上一案</span><h3 id="prevTitle" class="mt-6 text-2xl font-black leading-tight"></h3></a>
+          <a href="cases.html" class="flex min-h-[150px] items-center justify-center border border-black/10 bg-white px-6 text-sm font-black text-black no-underline hover:border-red-700 hover:text-red-700 md:w-44">返回案例列表</a>
+          <a id="nextLink" class="group flex min-h-[150px] flex-col justify-between border border-black/10 bg-white p-6 text-right text-black no-underline hover:border-red-700 hover:shadow-xl hover:shadow-black/5 md:items-end" href="#"><span class="inline-flex items-center gap-2 text-sm font-black text-neutral-500 group-hover:text-red-700">下一案 <i data-lucide="arrow-right" class="h-4 w-4"></i></span><h3 id="nextTitle" class="mt-6 text-2xl font-black leading-tight"></h3></a>
+        </div>
       </div>
     </section>
   </main>

@@ -32,6 +32,17 @@
         </div>
       </div>
     </section>
+    <section class="border-y border-black/10 bg-white py-10">
+      <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 md:flex-row md:items-center md:justify-between lg:px-8">
+        <div><p class="text-xs font-black uppercase tracking-[.24em] text-red-700">List Pagination</p><p class="mt-2 text-sm text-neutral-600">共 5 个服务案例演示数据</p></div>
+        <nav class="flex flex-wrap items-center gap-2 text-sm font-black" aria-label="服务案例分页">
+          <span class="inline-flex h-11 items-center justify-center border border-black/10 bg-[#f8f6f1] px-4 text-neutral-400">上一页</span>
+          <span class="inline-flex h-11 w-11 items-center justify-center bg-black text-white">1</span>
+          <a href="cases.html?page=2#restaurant" class="inline-flex h-11 w-11 items-center justify-center border border-black/10 bg-[#f8f6f1] text-black hover:border-red-700 hover:text-red-700">2</a>
+          <a href="cases.html?page=2#restaurant" class="inline-flex h-11 items-center justify-center gap-2 border border-black/10 bg-[#f8f6f1] px-4 text-black hover:border-red-700 hover:text-red-700">下一页 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+        </nav>
+      </div>
+    </section>
   </main>
   <footer class="border-t border-black/10 bg-white"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>案例为静态演示数据</span></div></footer>
   <button id="topBtn" class="fixed bottom-5 right-5 hidden h-11 w-11 items-center justify-center rounded-full bg-black text-white shadow-lg hover:bg-red-700" aria-label="返回顶部"><i data-lucide="arrow-up" class="h-5 w-5"></i></button>
