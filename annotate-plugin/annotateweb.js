@@ -226,7 +226,7 @@
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             setSaveStatus(`已保存 ${new Date().toLocaleTimeString()}`, 'saved');
         } catch (error) {
-            setSaveStatus('保存失败', 'error');
+            setSaveStatus('保存失败：请检查域名权限', 'error');
             console.warn('[AnnotateWeb] save annotations failed:', error);
         }
     }

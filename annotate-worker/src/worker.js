@@ -1,6 +1,8 @@
 const allowedOrigins = new Set([
   "https://lnlxkj.com",
   "https://www.lnlxkj.com",
+  "https://cs15714243477.github.io",
+  "null",
   "http://localhost:8787",
   "http://127.0.0.1:8787",
   "http://localhost:4173",
