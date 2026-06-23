@@ -228,6 +228,10 @@
     async function savePageAnnotations(force = false) {
         const endpoint = getAnnotationEndpoint();
         if (!endpoint || (!CONFIG.autosave && !force) || CONFIG.readonly || isLoadingRemoteAnnotations) return;
+        if (force && drawingOperations.length === 0) {
+            setSaveStatus('暂无标注可保存', 'idle');
+            return;
+        }
         if (CONFIG.requireAnnotator && !getAnnotatorName()) {
             await showAnnotatorDialog(true);
         }
