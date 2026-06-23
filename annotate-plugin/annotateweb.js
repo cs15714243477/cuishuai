@@ -114,6 +114,7 @@
     function getAnnotatorName() {
         if (annotatorName) return annotatorName;
         annotatorName = String(CONFIG.annotator || localStorage.getItem(getAnnotatorStorageKey()) || '').trim();
+        if (annotatorName === '访客') annotatorName = '';
         return annotatorName;
     }
 
@@ -161,18 +162,26 @@
             `;
             document.body.appendChild(modal);
             const input = modal.querySelector(`#${PREFIX}author-input`);
-            const close = () => {
-                const value = input.value.trim() || '访客';
+            const saveAuthor = () => {
+                const value = input.value.trim();
+                if (!value) {
+                    input.focus();
+                    return;
+                }
                 annotatorName = value;
                 localStorage.setItem(getAnnotatorStorageKey(), value);
                 updateAnnotatorButton();
                 modal.remove();
                 resolve(value);
             };
-            modal.querySelector(`#${PREFIX}author-save`).addEventListener('click', close);
-            modal.querySelector(`.${PREFIX}modal-close`).addEventListener('click', close);
+            const cancelAuthor = () => {
+                modal.remove();
+                resolve(getAnnotatorName());
+            };
+            modal.querySelector(`#${PREFIX}author-save`).addEventListener('click', saveAuthor);
+            modal.querySelector(`.${PREFIX}modal-close`).addEventListener('click', cancelAuthor);
             input.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') close();
+                if (event.key === 'Enter') saveAuthor();
             });
             setTimeout(() => input.focus(), 30);
         });
