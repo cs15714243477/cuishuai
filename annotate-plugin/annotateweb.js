@@ -36,8 +36,8 @@
         return raw || '/';
     }
     const CONFIG = Object.assign({
-        siteId: 'default',
-        apiBase: '',
+        siteId: 'bowang-law',
+        apiBase: 'https://annotate.lnlxkj.com',
         pageKey: window.location.pathname,
         autoLoad: true,
         autosave: true,
@@ -84,6 +84,15 @@
     let isLoadingRemoteAnnotations = false;
     let annotatorName = '';
     let saveStatusEl = null;
+    window.AnnotateWebRuntime = {
+        config: CONFIG,
+        getStatus: () => ({
+            count: drawingOperations.length,
+            author: getAnnotatorName() || '',
+            saveStatus: document.getElementById(`${PREFIX}save-status`)?.textContent || '',
+            endpoint: getAnnotationEndpoint(),
+        }),
+    };
 
     // --- Helper Functions --- (No changes)
     function hexToRgba(hex, alpha = 1) {
