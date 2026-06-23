@@ -62,7 +62,7 @@ function cleanOperation(op) {
   for (const key of [
     "tool", "color", "lineWidth", "compositeOperation", "points", "startX",
     "startY", "endX", "endY", "centerX", "centerY", "radius", "text",
-    "x", "y", "font", "lineHeight",
+    "x", "y", "font", "lineHeight", "author", "createdAt", "updatedAt",
   ]) {
     if (Object.prototype.hasOwnProperty.call(op, key)) allowed[key] = op[key];
   }

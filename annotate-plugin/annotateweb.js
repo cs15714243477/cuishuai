@@ -13,6 +13,7 @@
         autoLoad: SCRIPT_EL.dataset.autoLoad,
         autosave: SCRIPT_EL.dataset.autosave,
         readonly: SCRIPT_EL.dataset.readonly,
+        annotator: SCRIPT_EL.dataset.annotator,
     } : {};
     const USER_CONFIG = window.AnnotateWebConfig || {};
     const CONFIG = Object.assign({
@@ -24,6 +25,7 @@
         readonly: false,
         showShare: false,
         showInvite: false,
+        requireAnnotator: true,
         saveDelay: 650,
     }, USER_CONFIG, DATASET_CONFIG);
     CONFIG.autoLoad = CONFIG.autoLoad !== false && CONFIG.autoLoad !== 'false';
@@ -31,6 +33,7 @@
     CONFIG.readonly = CONFIG.readonly === true || CONFIG.readonly === 'true';
     CONFIG.showShare = CONFIG.showShare === true || CONFIG.showShare === 'true';
     CONFIG.showInvite = CONFIG.showInvite === true || CONFIG.showInvite === 'true';
+    CONFIG.requireAnnotator = CONFIG.requireAnnotator !== false && CONFIG.requireAnnotator !== 'false';
     CONFIG.apiBase = String(CONFIG.apiBase || '').replace(/\/+$/, '');
     CONFIG.pageKey = String(CONFIG.pageKey || window.location.pathname).split('#')[0] || '/';
     // --- Configuration ---
@@ -60,6 +63,8 @@
     let isToolbarMinimized = false;
     let persistTimer = null;
     let isLoadingRemoteAnnotations = false;
+    let annotatorName = '';
+    let saveStatusEl = null;
 
     // --- Helper Functions --- (No changes)
     function hexToRgba(hex, alpha = 1) {
@@ -72,6 +77,100 @@
     // Generate short UUID for sharing
     function generateShortId() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
+
+    function getAnnotatorStorageKey() {
+        return `AnnotateWeb:${CONFIG.siteId}:annotator`;
+    }
+
+    function getAnnotatorName() {
+        if (annotatorName) return annotatorName;
+        annotatorName = String(CONFIG.annotator || localStorage.getItem(getAnnotatorStorageKey()) || '').trim();
+        return annotatorName;
+    }
+
+    function setSaveStatus(text, state = 'idle') {
+        if (!saveStatusEl) saveStatusEl = document.getElementById(`${PREFIX}save-status`);
+        if (!saveStatusEl) return;
+        saveStatusEl.textContent = text;
+        saveStatusEl.dataset.state = state;
+    }
+
+    function stampOperation(operation) {
+        const author = getAnnotatorName() || '访客';
+        const now = new Date().toISOString();
+        return Object.assign(operation, {
+            author,
+            createdAt: operation.createdAt || now,
+            updatedAt: now,
+        });
+    }
+
+    function showAnnotatorDialog(force = false) {
+        if (!force && (!CONFIG.requireAnnotator || getAnnotatorName())) return Promise.resolve(getAnnotatorName());
+        return new Promise((resolve) => {
+            const existing = document.getElementById(`${PREFIX}author-dialog`);
+            if (existing) existing.remove();
+
+            const modal = document.createElement('div');
+            modal.id = `${PREFIX}author-dialog`;
+            modal.className = `${PREFIX}modal-container ${PREFIX}author-dialog`;
+            modal.innerHTML = `
+                <div class="${PREFIX}modal-content ${PREFIX}author-content">
+                    <div class="${PREFIX}modal-header">
+                        <h3>填写标注者</h3>
+                        <button class="${PREFIX}modal-close" type="button">&times;</button>
+                    </div>
+                    <p class="${PREFIX}author-desc">请输入你的姓名或昵称，之后的标注会自动记录并保存到当前页面。</p>
+                    <input id="${PREFIX}author-input" class="${PREFIX}author-input" type="text" placeholder="例如：张三 / 设计部小王" maxlength="24">
+                    <button id="${PREFIX}author-save" class="${PREFIX}primary-button" type="button">开始标注</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            const input = modal.querySelector(`#${PREFIX}author-input`);
+            const close = () => {
+                const value = input.value.trim() || '访客';
+                annotatorName = value;
+                localStorage.setItem(getAnnotatorStorageKey(), value);
+                modal.remove();
+                resolve(value);
+            };
+            modal.querySelector(`#${PREFIX}author-save`).addEventListener('click', close);
+            modal.querySelector(`.${PREFIX}modal-close`).addEventListener('click', close);
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') close();
+            });
+            setTimeout(() => input.focus(), 30);
+        });
+    }
+
+    function showHelpDialog() {
+        const existing = document.getElementById(`${PREFIX}help-dialog`);
+        if (existing) existing.remove();
+        const modal = document.createElement('div');
+        modal.id = `${PREFIX}help-dialog`;
+        modal.className = `${PREFIX}modal-container`;
+        modal.innerHTML = `
+            <div class="${PREFIX}modal-content ${PREFIX}help-content">
+                <div class="${PREFIX}modal-header">
+                    <h3>网页标注使用说明</h3>
+                    <button class="${PREFIX}modal-close" type="button">&times;</button>
+                </div>
+                <div class="${PREFIX}help-list">
+                    <p><b>移动工具：</b>按住工具窗口边缘或拖拽区域即可移动。</p>
+                    <p><b>正常浏览：</b>选择鼠标箭头图标，可以继续点击页面链接。</p>
+                    <p><b>标注页面：</b>选择画笔、高亮、直线、矩形、圆形或文字工具后，在页面上拖拽/点击即可标注。</p>
+                    <p><b>保存记录：</b>标注完成后会自动保存，也可以点击“保存”按钮手动保存。</p>
+                    <p><b>查看标注者：</b>每条标注旁会显示创建者姓名，刷新页面后其他访问者也能看到。</p>
+                    <p><b>清空/撤销：</b>支持撤销、重做、清空当前页面标注。</p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector(`.${PREFIX}modal-close`).addEventListener('click', () => modal.remove());
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) modal.remove();
+        });
     }
 
     function getAnnotationEndpoint() {
@@ -95,6 +194,7 @@
                 drawingOperations = data.annotations;
                 undoStack = [];
                 redrawVisibleAnnotations();
+                setSaveStatus(data.updatedAt ? `已加载 ${data.annotations.length} 条标注` : '暂无标注', 'saved');
             }
         } catch (error) {
             console.warn('[AnnotateWeb] load annotations failed:', error);
@@ -103,11 +203,15 @@
         }
     }
 
-    async function savePageAnnotations() {
+    async function savePageAnnotations(force = false) {
         const endpoint = getAnnotationEndpoint();
-        if (!endpoint || !CONFIG.autosave || CONFIG.readonly || isLoadingRemoteAnnotations) return;
+        if (!endpoint || (!CONFIG.autosave && !force) || CONFIG.readonly || isLoadingRemoteAnnotations) return;
+        if (CONFIG.requireAnnotator && !getAnnotatorName()) {
+            await showAnnotatorDialog(true);
+        }
         try {
-            await fetch(endpoint, {
+            setSaveStatus('保存中...', 'saving');
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -115,10 +219,14 @@
                     pageKey: CONFIG.pageKey,
                     url: window.location.href.split('#')[0],
                     title: document.title,
+                    annotator: getAnnotatorName(),
                     annotations: drawingOperations,
                 }),
             });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            setSaveStatus(`已保存 ${new Date().toLocaleTimeString()}`, 'saved');
         } catch (error) {
+            setSaveStatus('保存失败', 'error');
             console.warn('[AnnotateWeb] save annotations failed:', error);
         }
     }
@@ -200,8 +308,62 @@
                 const fontSize = parseFloat(op.font) || 16;
                 targetCtx.fillText(op.text, op.x - offsetX, op.y - offsetY + fontSize);
             }
+            drawAuthorBadge(targetCtx, op, offsetX, offsetY);
         });
         targetCtx.globalCompositeOperation = 'source-over'; // Reset
+    }
+
+    function getOperationAnchor(op) {
+        if (!op) return null;
+        if ((op.tool === 'pen' || op.tool === 'eraser' || op.tool === 'highlight') && op.points && op.points.length) {
+            return op.points[0];
+        }
+        if (op.tool === 'rectangle' || op.tool === 'line') {
+            return { x: op.startX, y: op.startY };
+        }
+        if (op.tool === 'circle') {
+            return { x: op.centerX, y: op.centerY - (op.radius || 0) };
+        }
+        if (op.tool === 'text') {
+            return { x: op.x, y: op.y };
+        }
+        return null;
+    }
+
+    function drawAuthorBadge(targetCtx, op, offsetX = 0, offsetY = 0) {
+        if (!op || !op.author) return;
+        const anchor = getOperationAnchor(op);
+        if (!anchor) return;
+        const label = String(op.author).slice(0, 16);
+        const x = anchor.x - offsetX + 8;
+        const y = anchor.y - offsetY - 22;
+        targetCtx.save();
+        targetCtx.globalCompositeOperation = 'source-over';
+        targetCtx.font = '12px Arial, sans-serif';
+        const width = Math.max(34, targetCtx.measureText(label).width + 16);
+        targetCtx.fillStyle = 'rgba(15, 23, 42, 0.86)';
+        targetCtx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+        targetCtx.lineWidth = 1;
+        targetCtx.beginPath();
+        if (typeof targetCtx.roundRect === 'function') {
+            targetCtx.roundRect(x, y, width, 20, 10);
+        } else {
+            const radius = 10;
+            targetCtx.moveTo(x + radius, y);
+            targetCtx.lineTo(x + width - radius, y);
+            targetCtx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            targetCtx.lineTo(x + width, y + 20 - radius);
+            targetCtx.quadraticCurveTo(x + width, y + 20, x + width - radius, y + 20);
+            targetCtx.lineTo(x + radius, y + 20);
+            targetCtx.quadraticCurveTo(x, y + 20, x, y + 20 - radius);
+            targetCtx.lineTo(x, y + radius);
+            targetCtx.quadraticCurveTo(x, y, x + radius, y);
+        }
+        targetCtx.fill();
+        targetCtx.stroke();
+        targetCtx.fillStyle = '#ffffff';
+        targetCtx.fillText(label, x + 8, y + 14);
+        targetCtx.restore();
     }
 
     // --- UI Creation ---
@@ -210,6 +372,17 @@
         toolbar.id = TOOLBAR_ID;
         toolbar.className = `${PREFIX}toolbar`;
         toolbar.innerHTML = `
+            <div class="${PREFIX}drag-edge ${PREFIX}drag-edge-top"></div>
+            <div class="${PREFIX}drag-edge ${PREFIX}drag-edge-right"></div>
+            <div class="${PREFIX}drag-edge ${PREFIX}drag-edge-bottom"></div>
+            <div class="${PREFIX}drag-edge ${PREFIX}drag-edge-left"></div>
+            <div class="${PREFIX}toolbar-head ${PREFIX}toolbar-drag">
+                <div>
+                    <div class="${PREFIX}toolbar-title">网页标注</div>
+                    <div class="${PREFIX}toolbar-subtitle">拖拽边缘移动窗口</div>
+                </div>
+                <button id="${PREFIX}author-button" class="${PREFIX}identity-button" type="button" title="修改标注者">标注者：${getAnnotatorName() || '未填写'}</button>
+            </div>
             <div class="${PREFIX}toolbar-rows">
                 <!-- First Row: Drawing Tools -->
                 <div class="${PREFIX}toolbar-row">
@@ -246,6 +419,12 @@
                 <div class="${PREFIX}toolbar-row">
 
                     <div class="${PREFIX}tool-group ${PREFIX}actions">
+                        <button id="${PREFIX}save-button" class="${PREFIX}tool-button ${PREFIX}save-button" title="Save Annotations">
+                            保存
+                        </button>
+                        <button id="${PREFIX}help-button" class="${PREFIX}tool-button ${PREFIX}help-button" title="How to use">
+                            说明
+                        </button>
                         <button id="${PREFIX}export-button" class="${PREFIX}tool-button" title="Export to Image">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><!-- Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></g></svg>
                         </button>
@@ -276,6 +455,10 @@
                         </select>
                     </div>
                 </div>
+                <div class="${PREFIX}toolbar-foot">
+                    <span id="${PREFIX}save-status" class="${PREFIX}save-status" data-state="idle">自动保存已开启</span>
+                    <span class="${PREFIX}save-hint">每条标注会记录创建者</span>
+                </div>
             </div>
             <button id="${PREFIX}minimize-button" class="${PREFIX}chrome-button ${PREFIX}chrome-button-floating" title="Minimize toolbar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 12h14"/></svg>
@@ -290,7 +473,7 @@
         document.body.appendChild(toolbar);
 
         // Toolbar Dragging Logic
-        const dragHandles = toolbar.querySelectorAll(`.${PREFIX}drag-handle`);
+        const dragHandles = toolbar.querySelectorAll(`.${PREFIX}drag-handle, .${PREFIX}drag-edge, .${PREFIX}toolbar-drag`);
 
         dragHandles.forEach(dragHandle => {
             // Mouse drag support
@@ -359,6 +542,15 @@
         document.getElementById(`${PREFIX}undo-button`).addEventListener('click', undoOperation);
         document.getElementById(`${PREFIX}redo-button`).addEventListener('click', redoOperation);
         document.getElementById(`${PREFIX}clear-button`).addEventListener('click', clearCanvas);
+        document.getElementById(`${PREFIX}save-button`).addEventListener('click', () => {
+            savePageAnnotations(true);
+        });
+        document.getElementById(`${PREFIX}help-button`).addEventListener('click', showHelpDialog);
+        document.getElementById(`${PREFIX}author-button`).addEventListener('click', async () => {
+            await showAnnotatorDialog(true);
+            const button = document.getElementById(`${PREFIX}author-button`);
+            if (button) button.textContent = `标注者：${getAnnotatorName() || '访客'}`;
+        });
         document.getElementById(`${PREFIX}minimize-button`).addEventListener('click', () => setToolbarMinimized(true));
         document.getElementById(`${PREFIX}maximize-button`).addEventListener('click', () => setToolbarMinimized(false));
     }
@@ -794,6 +986,229 @@
                     width: auto;
                 }
             }
+            .${PREFIX}toolbar {
+                top: 24px;
+                width: 372px;
+                max-width: calc(100vw - 28px);
+                padding: 12px;
+                background: rgba(255, 255, 255, 0.96);
+                color: #1f2937;
+                border: 1px solid rgba(161, 13, 25, 0.22);
+                border-radius: 14px;
+                box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18), 0 4px 14px rgba(161, 13, 25, 0.1);
+                backdrop-filter: blur(16px);
+                cursor: default;
+            }
+            .${PREFIX}toolbar-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                margin-bottom: 10px;
+                padding: 4px 4px 10px;
+                border-bottom: 1px solid rgba(161, 13, 25, 0.12);
+                cursor: grab;
+            }
+            .${PREFIX}toolbar-title {
+                font-size: 14px;
+                font-weight: 800;
+                color: #111827;
+                letter-spacing: 0.08em;
+            }
+            .${PREFIX}toolbar-subtitle {
+                margin-top: 2px;
+                font-size: 11px;
+                color: #8b5f63;
+            }
+            .${PREFIX}identity-button {
+                border: 1px solid rgba(161, 13, 25, 0.18);
+                background: #fff7f5;
+                color: #a10d19;
+                border-radius: 999px;
+                padding: 7px 10px;
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: 700;
+            }
+            .${PREFIX}toolbar-row {
+                gap: 7px;
+            }
+            .${PREFIX}tool-group {
+                background: #f8fafc;
+                border: 1px solid #eef2f7;
+                padding: 5px;
+                border-radius: 10px;
+                min-width: 0;
+            }
+            .${PREFIX}tool-button {
+                min-width: 34px;
+                min-height: 34px;
+                border-radius: 9px;
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                color: #334155;
+                box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            }
+            .${PREFIX}tool-button:hover {
+                background: #fff5f4;
+                border-color: rgba(161, 13, 25, 0.35);
+                color: #a10d19;
+            }
+            .${PREFIX}tool-button.${PREFIX}active,
+            .${PREFIX}tool-button[data-tool="navigate"].${PREFIX}active {
+                background: #a10d19;
+                border-color: #a10d19;
+                color: #ffffff;
+                box-shadow: 0 8px 18px rgba(161, 13, 25, 0.22);
+            }
+            .${PREFIX}save-button,
+            .${PREFIX}help-button {
+                min-width: 50px;
+                padding: 0 10px;
+                font-size: 12px;
+                font-weight: 800;
+            }
+            #${PREFIX}line-width,
+            #${PREFIX}color-picker {
+                background: #ffffff;
+                color: #334155;
+                border-color: #e5e7eb;
+            }
+            .${PREFIX}toolbar-foot {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                margin-top: 8px;
+                padding: 8px 4px 2px;
+                font-size: 11px;
+                color: #64748b;
+            }
+            .${PREFIX}save-status {
+                position: relative;
+                padding-left: 13px;
+                font-weight: 700;
+            }
+            .${PREFIX}save-status::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                width: 7px;
+                height: 7px;
+                border-radius: 999px;
+                transform: translateY(-50%);
+                background: #94a3b8;
+            }
+            .${PREFIX}save-status[data-state="saving"]::before { background: #f59e0b; }
+            .${PREFIX}save-status[data-state="saved"]::before { background: #16a34a; }
+            .${PREFIX}save-status[data-state="error"]::before { background: #dc2626; }
+            .${PREFIX}save-hint {
+                color: #9ca3af;
+            }
+            .${PREFIX}drag-handle {
+                background: linear-gradient(90deg, rgba(161,13,25,0.16), rgba(161,13,25,0.04));
+            }
+            .${PREFIX}drag-edge {
+                position: absolute;
+                z-index: 2;
+                background: transparent;
+            }
+            .${PREFIX}drag-edge-top,
+            .${PREFIX}drag-edge-bottom {
+                left: 14px;
+                right: 14px;
+                height: 10px;
+                cursor: grab;
+            }
+            .${PREFIX}drag-edge-top { top: 0; }
+            .${PREFIX}drag-edge-bottom { bottom: 0; }
+            .${PREFIX}drag-edge-left,
+            .${PREFIX}drag-edge-right {
+                top: 14px;
+                bottom: 14px;
+                width: 10px;
+                cursor: grab;
+            }
+            .${PREFIX}drag-edge-left { left: 0; }
+            .${PREFIX}drag-edge-right { right: 0; }
+            .${PREFIX}modal-container {
+                position: fixed;
+                inset: 0;
+                z-index: 2147483647;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(15, 23, 42, 0.42);
+                font-family: Arial, sans-serif;
+            }
+            .${PREFIX}modal-content {
+                width: min(440px, calc(100vw - 36px));
+                background: #ffffff;
+                border-radius: 14px;
+                border: 1px solid rgba(161, 13, 25, 0.14);
+                box-shadow: 0 24px 60px rgba(15, 23, 42, 0.26);
+                padding: 20px;
+                color: #111827;
+            }
+            .${PREFIX}modal-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+            .${PREFIX}modal-header h3 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 800;
+            }
+            .${PREFIX}modal-close {
+                border: 0;
+                background: #f3f4f6;
+                width: 32px;
+                height: 32px;
+                border-radius: 999px;
+                cursor: pointer;
+                font-size: 20px;
+                line-height: 1;
+            }
+            .${PREFIX}author-desc,
+            .${PREFIX}help-list p {
+                margin: 0 0 12px;
+                color: #4b5563;
+                line-height: 1.7;
+                font-size: 14px;
+            }
+            .${PREFIX}author-input {
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                padding: 12px 14px;
+                margin: 6px 0 14px;
+                font-size: 15px;
+                outline: none;
+            }
+            .${PREFIX}author-input:focus {
+                border-color: #a10d19;
+                box-shadow: 0 0 0 4px rgba(161, 13, 25, 0.1);
+            }
+            .${PREFIX}primary-button {
+                width: 100%;
+                border: 0;
+                border-radius: 10px;
+                background: #a10d19;
+                color: #ffffff;
+                padding: 12px 14px;
+                font-size: 15px;
+                font-weight: 800;
+                cursor: pointer;
+            }
         `;
         document.head.appendChild(style);
     }
@@ -883,6 +1298,11 @@
 
 
         if (currentTool === 'navigate') return;
+
+        if (CONFIG.requireAnnotator && !getAnnotatorName()) {
+            showAnnotatorDialog(true);
+            return;
+        }
 
         if (currentTool === 'text') {
             // For text tool, we don't start drawing, we show a text input at click position
@@ -1019,7 +1439,7 @@
                 currentPath.points.push({ x: docCoords.x, y: docCoords.y });
 
                 if (currentPath.points.length > 1) { // Ensure there's at least a start and end point
-                    drawingOperations.push(currentPath);
+                    drawingOperations.push(stampOperation(currentPath));
                     schedulePersistAnnotations();
                 }
                 currentPath = null;
@@ -1059,7 +1479,7 @@
             else if (currentTool === 'line' && startX === docCoords.x && startY === docCoords.y) { /* no op */ }
             else if (currentTool === 'circle' && operation.radius === 0) { /* no op */ }
             else {
-                drawingOperations.push(operation);
+                drawingOperations.push(stampOperation(operation));
                 schedulePersistAnnotations();
             }
         }
@@ -1275,7 +1695,7 @@
                         font: `${fontSize}px Arial, sans-serif`, // More readable font
                         lineHeight: lineHeight
                     };
-                    drawingOperations.push(textOperation);
+                    drawingOperations.push(stampOperation(textOperation));
                 }
             });
             schedulePersistAnnotations();
@@ -1968,6 +2388,7 @@
         createCanvas(); // Canvas is now fixed, viewport-sized
         addGlobalDragListeners(); // Add listeners for toolbar dragging
         selectTool('navigate'); // Default to navigation
+        showAnnotatorDialog(false);
 
         window.addEventListener('resize', handleResize);
         window.addEventListener('keydown', handleKeyPress); // For Esc key
@@ -2075,6 +2496,7 @@
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
             }
+            drawAuthorBadge(ctx, op, viewportX, viewportY);
             // ctx.closePath(); // Not strictly necessary for stroke/fill as they handle paths.
         });
 
