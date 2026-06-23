@@ -6,7 +6,7 @@
         return;
     }
     const SCRIPT_EL = document.currentScript;
-    const DATASET_CONFIG = SCRIPT_EL ? {
+    const RAW_DATASET_CONFIG = SCRIPT_EL ? {
         siteId: SCRIPT_EL.dataset.siteId,
         apiBase: SCRIPT_EL.dataset.apiBase,
         pageKey: SCRIPT_EL.dataset.pageKey,
@@ -15,6 +15,9 @@
         readonly: SCRIPT_EL.dataset.readonly,
         annotator: SCRIPT_EL.dataset.annotator,
     } : {};
+    const DATASET_CONFIG = Object.fromEntries(
+        Object.entries(RAW_DATASET_CONFIG).filter(([, value]) => value !== undefined && value !== '')
+    );
     const USER_CONFIG = window.AnnotateWebConfig || {};
     function normalizeClientPageKey(value) {
         let raw = String(value || `${window.location.pathname}${window.location.search || ''}`).trim();
