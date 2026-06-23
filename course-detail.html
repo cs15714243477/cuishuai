@@ -186,5 +186,17 @@
     const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
     window.lucide?.createIcons();
   </script>
+<!-- AnnotateWeb Plugin -->
+<script>
+  window.AnnotateWebConfig = {
+    siteId: "bowang-law",
+    apiBase: "https://annotate.lnlxkj.com",
+    pageKey: location.pathname,
+    autoLoad: true,
+    autosave: true
+  };
+</script>
+<script src="https://annotate.lnlxkj.com/plugin/html2canvas.min.js"></script>
+<script src="https://annotate.lnlxkj.com/plugin/annotateweb.js"></script>
 </body>
 </html>

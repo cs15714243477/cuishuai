@@ -250,5 +250,17 @@ document.querySelector('[data-menu]')?.addEventListener('click',()=>document.get
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 const topBtn=document.getElementById('topBtn');window.addEventListener('scroll',()=>{topBtn.classList.toggle('hidden',window.scrollY<700);topBtn.classList.toggle('inline-flex',window.scrollY>=700)});topBtn?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));window.lucide?.createIcons();
 </script>
+<!-- AnnotateWeb Plugin -->
+<script>
+  window.AnnotateWebConfig = {
+    siteId: "bowang-law",
+    apiBase: "https://annotate.lnlxkj.com",
+    pageKey: location.pathname,
+    autoLoad: true,
+    autosave: true
+  };
+</script>
+<script src="https://annotate.lnlxkj.com/plugin/html2canvas.min.js"></script>
+<script src="https://annotate.lnlxkj.com/plugin/annotateweb.js"></script>
 </body>
 </html>

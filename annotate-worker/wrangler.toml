@@ -1,0 +1,10 @@
+name = "annotateweb-api"
+main = "src/worker.js"
+compatibility_date = "2026-06-23"
+routes = [
+  { pattern = "annotate.lnlxkj.com", custom_domain = true }
+]
+
+[[kv_namespaces]]
+binding = "ANNOTATIONS"
+id = "58b21121fcfb4c60ba2955ce8727f3f8"

@@ -714,5 +714,17 @@
     topBtn?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     window.lucide?.createIcons();
   </script>
+<!-- AnnotateWeb Plugin -->
+<script>
+  window.AnnotateWebConfig = {
+    siteId: "bowang-law",
+    apiBase: "https://annotate.lnlxkj.com",
+    pageKey: location.pathname,
+    autoLoad: true,
+    autosave: true
+  };
+</script>
+<script src="https://annotate.lnlxkj.com/plugin/html2canvas.min.js"></script>
+<script src="https://annotate.lnlxkj.com/plugin/annotateweb.js"></script>
 </body>
 </html>
