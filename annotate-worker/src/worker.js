@@ -64,7 +64,7 @@ function cleanOperation(op) {
   for (const key of [
     "tool", "color", "lineWidth", "compositeOperation", "points", "startX",
     "startY", "endX", "endY", "centerX", "centerY", "radius", "text",
-    "x", "y", "font", "lineHeight", "author", "createdAt", "updatedAt",
+    "x", "y", "font", "lineHeight", "anchor", "pageBasis", "author", "createdAt", "updatedAt",
   ]) {
     if (Object.prototype.hasOwnProperty.call(op, key)) allowed[key] = op[key];
   }
@@ -90,7 +90,7 @@ export default {
       return new Response(body, {
         headers: {
           "content-type": asset.type,
-          "cache-control": "public, max-age=300",
+          "cache-control": "no-store",
           "access-control-allow-origin": "*",
         },
       });

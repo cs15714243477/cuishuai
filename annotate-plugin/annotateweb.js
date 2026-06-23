@@ -76,6 +76,8 @@
     let drawingOperations = []; // To store all drawing operations
     let undoStack = []; // To store operations that were undone (for redo)
     let currentPath = null; // To store current pen/eraser path
+    let currentAnchor = null;
+    let pendingTextAnchor = null;
 
     let isDraggingToolbar = false;
     let toolbarOffsetX, toolbarOffsetY;
@@ -138,6 +140,162 @@
             createdAt: operation.createdAt || now,
             updatedAt: now,
         });
+    }
+
+    function getDocumentSize() {
+        const doc = document.documentElement;
+        const body = document.body || doc;
+        return {
+            width: Math.max(doc.scrollWidth, body.scrollWidth, window.innerWidth),
+            height: Math.max(doc.scrollHeight, body.scrollHeight, window.innerHeight),
+        };
+    }
+
+    function cssEscape(value) {
+        if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(value);
+        return String(value).replace(/["\\#.;:[\]>+~*^$|=,\s]/g, '\\$&');
+    }
+
+    function isPluginElement(element) {
+        return !!(element && element.closest && element.closest(`#${TOOLBAR_ID}, #${CANVAS_ID}, .${PREFIX}modal-container`));
+    }
+
+    function isUniqueSelector(selector, element) {
+        try {
+            const matches = document.querySelectorAll(selector);
+            return matches.length === 1 && matches[0] === element;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function getElementSelector(element) {
+        if (!element || element.nodeType !== 1 || element === document.documentElement) return 'body';
+        if (element.id && !element.id.startsWith(PREFIX) && element.id !== CANVAS_ID && element.id !== TOOLBAR_ID) {
+            const selector = `#${cssEscape(element.id)}`;
+            if (isUniqueSelector(selector, element)) return selector;
+        }
+
+        const parts = [];
+        let node = element;
+        while (node && node.nodeType === 1 && node !== document.documentElement) {
+            if (node === document.body) {
+                parts.unshift('body');
+                break;
+            }
+            let segment = node.tagName.toLowerCase();
+            if (node.id && !node.id.startsWith(PREFIX)) {
+                const idSelector = `#${cssEscape(node.id)}`;
+                if (isUniqueSelector(idSelector, node)) {
+                    parts.unshift(idSelector);
+                    break;
+                }
+            }
+            const parent = node.parentElement;
+            if (parent) {
+                const siblings = Array.from(parent.children).filter(child => child.tagName === node.tagName);
+                if (siblings.length > 1) {
+                    segment += `:nth-of-type(${siblings.indexOf(node) + 1})`;
+                }
+            }
+            parts.unshift(segment);
+            node = parent;
+        }
+        return parts.join(' > ') || 'body';
+    }
+
+    function getAnchorElementAt(clientX, clientY) {
+        const elements = document.elementsFromPoint(clientX, clientY);
+        let candidate = elements.find(element => {
+            if (!element || element === canvas || element === document.documentElement || isPluginElement(element)) return false;
+            return element.nodeType === 1;
+        });
+        if (!candidate) candidate = document.body;
+
+        while (candidate && candidate !== document.body) {
+            const rect = candidate.getBoundingClientRect();
+            if (rect.width >= 24 && rect.height >= 24) break;
+            candidate = candidate.parentElement;
+        }
+        return candidate || document.body;
+    }
+
+    function createAnchorMeta(clientX, clientY) {
+        const element = getAnchorElementAt(clientX, clientY);
+        const rect = element.getBoundingClientRect();
+        const page = getDocumentSize();
+        return {
+            selector: getElementSelector(element),
+            left: rect.left + window.scrollX,
+            top: rect.top + window.scrollY,
+            width: Math.max(rect.width, 1),
+            height: Math.max(rect.height, 1),
+            pageWidth: page.width,
+            pageHeight: page.height,
+        };
+    }
+
+    function attachCoordinateContext(operation, anchor = currentAnchor) {
+        const page = getDocumentSize();
+        operation.anchor = anchor || null;
+        operation.pageBasis = { width: page.width, height: page.height };
+        return operation;
+    }
+
+    function queryAnchorElement(anchor) {
+        if (!anchor || !anchor.selector) return null;
+        try {
+            return document.querySelector(anchor.selector);
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function getOperationTransform(op) {
+        const anchor = op && op.anchor;
+        const element = queryAnchorElement(anchor);
+        if (element && anchor.width > 0 && anchor.height > 0) {
+            const rect = element.getBoundingClientRect();
+            if (rect.width <= 0 || rect.height <= 0) return getPageBasisTransform(op);
+            const left = rect.left + window.scrollX;
+            const top = rect.top + window.scrollY;
+            const scaleX = rect.width / anchor.width;
+            const scaleY = rect.height / anchor.height;
+            return {
+                scaleX,
+                scaleY,
+                x: value => left + (value - anchor.left) * scaleX,
+                y: value => top + (value - anchor.top) * scaleY,
+            };
+        }
+
+        return getPageBasisTransform(op);
+    }
+
+    function getPageBasisTransform(op) {
+        const basis = op && op.pageBasis;
+        if (basis && basis.width > 0 && basis.height > 0) {
+            const page = getDocumentSize();
+            const scaleX = page.width / basis.width;
+            const scaleY = page.height / basis.height;
+            return {
+                scaleX,
+                scaleY,
+                x: value => value * scaleX,
+                y: value => value * scaleY,
+            };
+        }
+
+        return {
+            scaleX: 1,
+            scaleY: 1,
+            x: value => value,
+            y: value => value,
+        };
+    }
+
+    function transformPoint(transform, x, y) {
+        return { x: transform.x(x), y: transform.y(y) };
     }
 
     function showAnnotatorDialog(force = false) {
@@ -314,73 +472,78 @@
 
 
         operations.forEach(op => {
+            const transform = getOperationTransform(op);
             targetCtx.strokeStyle = op.color;
             targetCtx.fillStyle = op.color;
-            targetCtx.lineWidth = op.lineWidth;
+            targetCtx.lineWidth = (op.lineWidth || 1) * Math.max(0.75, Math.min(2, (transform.scaleX + transform.scaleY) / 2));
             targetCtx.globalCompositeOperation = op.compositeOperation || 'source-over';
 
             targetCtx.beginPath();
 
             if (op.tool === 'pen' || op.tool === 'eraser' || op.tool === 'highlight') {
                 if (op.points && op.points.length > 0) {
-                    const firstPoint = op.points[0];
+                    const firstPoint = transformPoint(transform, op.points[0].x, op.points[0].y);
                     targetCtx.moveTo(firstPoint.x - offsetX, firstPoint.y - offsetY);
                     for (let i = 1; i < op.points.length; i++) {
-                        const point = op.points[i];
+                        const point = transformPoint(transform, op.points[i].x, op.points[i].y);
                         targetCtx.lineTo(point.x - offsetX, point.y - offsetY);
                     }
                     targetCtx.stroke();
                 }
             } else if (op.tool === 'rectangle') {
+                const start = transformPoint(transform, op.startX, op.startY);
+                const end = transformPoint(transform, op.endX, op.endY);
                 targetCtx.strokeRect(
-                    op.startX - offsetX,
-                    op.startY - offsetY,
-                    op.endX - op.startX,
-                    op.endY - op.startY
+                    start.x - offsetX,
+                    start.y - offsetY,
+                    end.x - start.x,
+                    end.y - start.y
                 );
             } else if (op.tool === 'line') {
-                targetCtx.moveTo(op.startX - offsetX, op.startY - offsetY);
-                targetCtx.lineTo(op.endX - offsetX, op.endY - offsetY);
+                const start = transformPoint(transform, op.startX, op.startY);
+                const end = transformPoint(transform, op.endX, op.endY);
+                targetCtx.moveTo(start.x - offsetX, start.y - offsetY);
+                targetCtx.lineTo(end.x - offsetX, end.y - offsetY);
                 targetCtx.stroke();
             } else if (op.tool === 'circle') {
-                targetCtx.arc(
-                    op.centerX - offsetX,
-                    op.centerY - offsetY,
-                    op.radius,
-                    0,
-                    2 * Math.PI
-                );
+                const center = transformPoint(transform, op.centerX, op.centerY);
+                if (typeof targetCtx.ellipse === 'function') {
+                    targetCtx.ellipse(center.x - offsetX, center.y - offsetY, op.radius * transform.scaleX, op.radius * transform.scaleY, 0, 0, 2 * Math.PI);
+                } else {
+                    targetCtx.arc(center.x - offsetX, center.y - offsetY, op.radius * ((transform.scaleX + transform.scaleY) / 2), 0, 2 * Math.PI);
+                }
                 targetCtx.stroke();
             } else if (op.tool === 'text') {
-                targetCtx.font = op.font;
+                const point = transformPoint(transform, op.x, op.y);
                 const fontSize = parseFloat(op.font) || 16;
-                targetCtx.fillText(op.text, op.x - offsetX, op.y - offsetY + fontSize);
+                targetCtx.font = (op.font || '18px Arial, sans-serif').replace(`${fontSize}px`, `${Math.max(12, fontSize * transform.scaleY)}px`);
+                targetCtx.fillText(op.text, point.x - offsetX, point.y - offsetY + fontSize * transform.scaleY);
             }
-            drawAuthorBadge(targetCtx, op, offsetX, offsetY);
+            drawAuthorBadge(targetCtx, op, offsetX, offsetY, transform);
         });
         targetCtx.globalCompositeOperation = 'source-over'; // Reset
     }
 
-    function getOperationAnchor(op) {
+    function getOperationAnchor(op, transform = getOperationTransform(op)) {
         if (!op) return null;
         if ((op.tool === 'pen' || op.tool === 'eraser' || op.tool === 'highlight') && op.points && op.points.length) {
-            return op.points[0];
+            return transformPoint(transform, op.points[0].x, op.points[0].y);
         }
         if (op.tool === 'rectangle' || op.tool === 'line') {
-            return { x: op.startX, y: op.startY };
+            return transformPoint(transform, op.startX, op.startY);
         }
         if (op.tool === 'circle') {
-            return { x: op.centerX, y: op.centerY - (op.radius || 0) };
+            return transformPoint(transform, op.centerX, op.centerY - (op.radius || 0));
         }
         if (op.tool === 'text') {
-            return { x: op.x, y: op.y };
+            return transformPoint(transform, op.x, op.y);
         }
         return null;
     }
 
-    function drawAuthorBadge(targetCtx, op, offsetX = 0, offsetY = 0) {
+    function drawAuthorBadge(targetCtx, op, offsetX = 0, offsetY = 0, transform = getOperationTransform(op)) {
         if (!op || !op.author) return;
-        const anchor = getOperationAnchor(op);
+        const anchor = getOperationAnchor(op, transform);
         if (!anchor) return;
         const label = String(op.author).slice(0, 16);
         const x = anchor.x - offsetX + 8;
@@ -1343,6 +1506,7 @@
         // startX and startY are now document-relative
         startX = docCoords.x;
         startY = docCoords.y;
+        currentAnchor = createAnchorMeta(e.clientX, e.clientY);
 
 
         if (currentTool === 'navigate') return;
@@ -1354,6 +1518,7 @@
 
         if (currentTool === 'text') {
             // For text tool, we don't start drawing, we show a text input at click position
+            pendingTextAnchor = currentAnchor;
             handleTextToolClick(startX, startY); // Document-relative coordinates
             return; // Exit early, no further drawing logic needed
         }
@@ -1372,6 +1537,7 @@
                 lineWidth: ctx.lineWidth,
                 compositeOperation: ctx.globalCompositeOperation
             };
+            attachCoordinateContext(currentPath, currentAnchor);
             // Apply tool-specific settings for the viewport drawing
             ctx.lineWidth = currentPath.lineWidth;
             ctx.globalCompositeOperation = currentPath.compositeOperation;
@@ -1527,6 +1693,7 @@
             else if (currentTool === 'line' && startX === docCoords.x && startY === docCoords.y) { /* no op */ }
             else if (currentTool === 'circle' && operation.radius === 0) { /* no op */ }
             else {
+                attachCoordinateContext(operation, currentAnchor);
                 drawingOperations.push(stampOperation(operation));
                 schedulePersistAnnotations();
             }
@@ -1661,6 +1828,7 @@
         input.id = `${PREFIX}text-input`;
         input.className = `${PREFIX}text-input`;
         input.placeholder = 'Type your text here...'; 
+        input.dataset.anchor = JSON.stringify(pendingTextAnchor || currentAnchor || null);
         
         // Since we're using fixed positioning for the input but document coordinates for the click,
         // we need to convert document coordinates to viewport coordinates
@@ -1734,7 +1902,13 @@
             // For each line of text, create a separate text operation
             textLines.forEach((line, index) => {
                 if (line.trim()) { // Only add non-empty lines
-                    const textOperation = {
+                    let textAnchor = pendingTextAnchor;
+                    try {
+                        textAnchor = inputElement.dataset.anchor ? JSON.parse(inputElement.dataset.anchor) : textAnchor;
+                    } catch (error) {
+                        textAnchor = pendingTextAnchor;
+                    }
+                    const textOperation = attachCoordinateContext({
                         tool: 'text',
                         text: line,
                         x: startX, // Original document-relative X where the user clicked
@@ -1742,10 +1916,11 @@
                         color: currentColor, // Use the color active when text input was initiated
                         font: `${fontSize}px Arial, sans-serif`, // More readable font
                         lineHeight: lineHeight
-                    };
+                    }, textAnchor);
                     drawingOperations.push(stampOperation(textOperation));
                 }
             });
+            pendingTextAnchor = null;
             schedulePersistAnnotations();
         }
 
@@ -2488,10 +2663,11 @@
 
 
         drawingOperations.forEach(op => {
+            const transform = getOperationTransform(op);
             // Apply common styles for this operation
             ctx.strokeStyle = op.color;
             ctx.fillStyle = op.color; // For text and filled shapes (if any)
-            ctx.lineWidth = op.lineWidth;
+            ctx.lineWidth = (op.lineWidth || 1) * Math.max(0.75, Math.min(2, (transform.scaleX + transform.scaleY) / 2));
             ctx.globalCompositeOperation = op.compositeOperation || 'source-over'; // Default to source-over
 
             // Convert document-relative coordinates to viewport-relative for drawing
@@ -2499,36 +2675,42 @@
 
             if (op.tool === 'pen' || op.tool === 'eraser' || op.tool === 'highlight') {
                 if (op.points && op.points.length > 0) {
-                    const firstPoint = op.points[0];
+                    const firstPoint = transformPoint(transform, op.points[0].x, op.points[0].y);
                     ctx.moveTo(firstPoint.x - viewportX, firstPoint.y - viewportY);
                     for (let i = 1; i < op.points.length; i++) {
-                        const point = op.points[i];
+                        const point = transformPoint(transform, op.points[i].x, op.points[i].y);
                         ctx.lineTo(point.x - viewportX, point.y - viewportY);
                     }
                     ctx.stroke();
                 }
             } else if (op.tool === 'rectangle') {
+                const start = transformPoint(transform, op.startX, op.startY);
+                const end = transformPoint(transform, op.endX, op.endY);
                 ctx.strokeRect(
-                    op.startX - viewportX,
-                    op.startY - viewportY,
-                    op.endX - op.startX, // width
-                    op.endY - op.startY  // height
+                    start.x - viewportX,
+                    start.y - viewportY,
+                    end.x - start.x,
+                    end.y - start.y
                 );
             } else if (op.tool === 'line') {
-                ctx.moveTo(op.startX - viewportX, op.startY - viewportY);
-                ctx.lineTo(op.endX - viewportX, op.endY - viewportY);
+                const start = transformPoint(transform, op.startX, op.startY);
+                const end = transformPoint(transform, op.endX, op.endY);
+                ctx.moveTo(start.x - viewportX, start.y - viewportY);
+                ctx.lineTo(end.x - viewportX, end.y - viewportY);
                 ctx.stroke();
             } else if (op.tool === 'circle') {
-                ctx.arc(
-                    op.centerX - viewportX,
-                    op.centerY - viewportY,
-                    op.radius,
-                    0,
-                    2 * Math.PI
-                );
+                const center = transformPoint(transform, op.centerX, op.centerY);
+                if (typeof ctx.ellipse === 'function') {
+                    ctx.ellipse(center.x - viewportX, center.y - viewportY, op.radius * transform.scaleX, op.radius * transform.scaleY, 0, 0, 2 * Math.PI);
+                } else {
+                    ctx.arc(center.x - viewportX, center.y - viewportY, op.radius * ((transform.scaleX + transform.scaleY) / 2), 0, 2 * Math.PI);
+                }
                 ctx.stroke();
             } else if (op.tool === 'text') {
-                ctx.font = op.font || '18px Arial, sans-serif';
+                const point = transformPoint(transform, op.x, op.y);
+                const originalFont = op.font || '18px Arial, sans-serif';
+                const fontSize = parseFloat(originalFont) || 18;
+                ctx.font = originalFont.replace(`${fontSize}px`, `${Math.max(12, fontSize * transform.scaleY)}px`);
                 ctx.textBaseline = 'top'; // Set text baseline for more predictable positioning
                 
                 // Add a subtle text shadow effect for better readability over different backgrounds
@@ -2538,13 +2720,13 @@
                 ctx.shadowOffsetY = 0;
                 
                 // Draw the text with adjusted positioning
-                ctx.fillText(op.text, op.x - viewportX, op.y - viewportY);
+                ctx.fillText(op.text, point.x - viewportX, point.y - viewportY);
                 
                 // Reset shadow for other drawing operations
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
             }
-            drawAuthorBadge(ctx, op, viewportX, viewportY);
+            drawAuthorBadge(ctx, op, viewportX, viewportY, transform);
             // ctx.closePath(); // Not strictly necessary for stroke/fill as they handle paths.
         });
 
