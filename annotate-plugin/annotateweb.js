@@ -16,6 +16,22 @@
         annotator: SCRIPT_EL.dataset.annotator,
     } : {};
     const USER_CONFIG = window.AnnotateWebConfig || {};
+    function normalizeClientPageKey(value) {
+        let raw = String(value || `${window.location.pathname}${window.location.search || ''}`).trim();
+        if (!raw) raw = '/';
+        try {
+            const url = new URL(raw, window.location.origin);
+            const params = url.searchParams;
+            ['check', 'cache', '_', 't', 'v'].forEach((key) => params.delete(key));
+            const query = params.toString();
+            raw = `${url.pathname}${query ? `?${query}` : ''}`;
+        } catch (error) {
+            raw = raw.split('#')[0];
+        }
+        raw = raw.replace(/\/index\.html(?=$|\?)/i, '/');
+        if (raw.length > 1) raw = raw.replace(/\/(?=$|\?)/, '');
+        return raw || '/';
+    }
     const CONFIG = Object.assign({
         siteId: 'default',
         apiBase: '',
@@ -35,7 +51,7 @@
     CONFIG.showInvite = CONFIG.showInvite === true || CONFIG.showInvite === 'true';
     CONFIG.requireAnnotator = CONFIG.requireAnnotator !== false && CONFIG.requireAnnotator !== 'false';
     CONFIG.apiBase = String(CONFIG.apiBase || '').replace(/\/+$/, '');
-    CONFIG.pageKey = String(CONFIG.pageKey || window.location.pathname).split('#')[0] || '/';
+    CONFIG.pageKey = normalizeClientPageKey(CONFIG.pageKey || `${window.location.pathname}${window.location.search || ''}`);
     // --- Configuration ---
     const TOOLBAR_ID = 'drawing-toolbar-extension';
     const CANVAS_ID = 'drawing-canvas-extension';
@@ -89,6 +105,11 @@
         return annotatorName;
     }
 
+    function updateAnnotatorButton() {
+        const button = document.getElementById(`${PREFIX}author-button`);
+        if (button) button.textContent = `标注者：${getAnnotatorName() || '未填写'}`;
+    }
+
     function setSaveStatus(text, state = 'idle') {
         if (!saveStatusEl) saveStatusEl = document.getElementById(`${PREFIX}save-status`);
         if (!saveStatusEl) return;
@@ -132,6 +153,7 @@
                 const value = input.value.trim() || '访客';
                 annotatorName = value;
                 localStorage.setItem(getAnnotatorStorageKey(), value);
+                updateAnnotatorButton();
                 modal.remove();
                 resolve(value);
             };
@@ -224,7 +246,8 @@
                 }),
             });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            setSaveStatus(`已保存 ${new Date().toLocaleTimeString()}`, 'saved');
+            const result = await response.json().catch(() => ({}));
+            setSaveStatus(`已保存 ${typeof result.count === 'number' ? result.count : drawingOperations.length} 条 · ${new Date().toLocaleTimeString()}`, 'saved');
         } catch (error) {
             setSaveStatus('保存失败：请检查域名权限', 'error');
             console.warn('[AnnotateWeb] save annotations failed:', error);
@@ -1279,7 +1302,7 @@
         applyToolSettings();
     }
 
-    function startDrawing(e) {
+    async function startDrawing(e) {
         // For touch events, only prevent default when we're going to draw
         // This allows normal scrolling when in navigation mode
         if (e.type === 'touchstart' && currentTool !== 'navigate') {
@@ -1300,8 +1323,8 @@
         if (currentTool === 'navigate') return;
 
         if (CONFIG.requireAnnotator && !getAnnotatorName()) {
-            showAnnotatorDialog(true);
-            return;
+            await showAnnotatorDialog(true);
+            if (!getAnnotatorName()) return;
         }
 
         if (currentTool === 'text') {
