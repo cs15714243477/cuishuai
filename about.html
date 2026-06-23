@@ -8,11 +8,60 @@
   <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
   <script src="https://unpkg.com/lucide@1.20.0/dist/umd/lucide.js"></script>
   <style>
-    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink)}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.page-hero{background-image:linear-gradient(90deg,rgba(0,0,0,.76),rgba(0,0,0,.38)),url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2200&q=85");background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.show{opacity:1;transform:translateY(0)}.input{width:100%;border:1px solid rgba(0,0,0,.14);border-radius:16px;padding:14px 16px;outline:none}.input:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(200,16,46,.1)}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
-  </style>
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-ExtraLight.otf") format("opentype");
+      font-weight: 200;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Light.otf") format("opentype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Regular.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Medium.otf") format("opentype");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-SemiBold.otf") format("opentype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Bold.otf") format("opentype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Heavy.otf") format("opentype");
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family: "Source Han Serif SC","Noto Serif CJK SC","Noto Serif SC","Songti SC","STSong","SimSun",serif !important;color:var(--ink)}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b;font-family:"Source Han Serif SC","Noto Serif CJK SC","Noto Serif SC","Songti SC","STSong","SimSun",serif!important;font-size:1rem!important;font-weight:900!important;line-height:1.35}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.page-hero{background-image:linear-gradient(90deg,rgba(0,0,0,.76),rgba(0,0,0,.38)),url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2200&q=85");background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.show{opacity:1;transform:translateY(0)}.input{width:100%;border:1px solid rgba(0,0,0,.14);border-radius:16px;padding:14px 16px;outline:none}.input:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(200,16,46,.1)}.contact-info-grid{display:grid;gap:1.25rem}@media(min-width:1024px){.contact-info-grid{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);align-items:stretch}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+  button,input,textarea,select{font-family:inherit!important}</style>
 </head>
 <body class="antialiased">
-  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass"><div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8"><a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a><nav class="hidden items-center gap-7 text-sm font-semibold lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link active" href="about.html">关于我们</a></nav><a href="#contact" class="hidden rounded-full bg-black px-5 py-2 text-sm font-bold text-white hover:bg-red-700 lg:inline-flex">预约咨询</a><button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button></div><div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-sm font-semibold"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div></header>
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass"><div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8"><a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a><nav class="hidden items-center gap-6 text-base font-black lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link active" href="about.html">关于我们</a></nav><div class="hidden items-center gap-3 lg:flex"><a href="#contact" class="rounded-full border border-black/15 px-4 py-2 text-sm font-bold text-black hover:border-red-700 hover:text-red-700">预约咨询</a><a href="tel:400-800-2026" class="inline-flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-bold text-white hover:bg-red-700"><i data-lucide="phone" class="h-4 w-4"></i> 400-800-2026</a></div><button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button></div><div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-base font-black"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div></header>
   <main>
     <section class="page-hero pt-32 text-white"><div class="mx-auto max-w-7xl px-5 py-24 lg:px-8"><div class="reveal max-w-3xl"><p class="text-sm font-black uppercase tracking-[.28em] text-red-200">About</p><h1 class="mt-4 text-4xl font-black leading-tight md:text-6xl">关于我们</h1><p class="mt-6 text-lg leading-8 text-white/78">博望连锁法务团队以连锁行业法律服务为核心，强调行业理解、项目交付和长期陪伴。</p></div></div></section>
     <section id="yingke" class="mx-auto grid max-w-7xl gap-10 px-5 py-20 lg:grid-cols-[.9fr_1.1fr] lg:px-8">
@@ -20,26 +69,116 @@
       <div class="reveal rounded-[28px] bg-[#f8f6f1] p-8"><div class="grid gap-5 md:grid-cols-3"><div><p class="text-4xl font-black">180+</p><p class="mt-2 text-sm text-neutral-600">城市协同网络</p></div><div><p class="text-4xl font-black">30+</p><p class="mt-2 text-sm text-neutral-600">专业服务方向</p></div><div><p class="text-4xl font-black">7×24</p><p class="mt-2 text-sm text-neutral-600">紧急响应机制</p></div></div></div>
     </section>
     <section id="bowang" class="bg-[#f8f6f1] py-20">
-      <div class="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
-        <img class="reveal h-full min-h-[420px] w-full rounded-[28px] object-cover" src="https://images.unsplash.com/photo-1568992688065-536aad8a12f6?auto=format&amp;fit=crop&amp;w=1300&amp;q=82" alt="律所办公环境演示图">
-        <div class="reveal"><p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Bowang</p><h2 class="mt-3 text-3xl font-black md:text-5xl">博望方法</h2><div class="mt-8 grid gap-4"><div class="rounded-2xl bg-white p-6"><h3 class="text-xl font-black">行业语境</h3><p class="mt-3 text-sm leading-7 text-neutral-600">用连锁经营语言理解合同、授权、门店管理和招商节奏。</p></div><div class="rounded-2xl bg-white p-6"><h3 class="text-xl font-black">项目交付</h3><p class="mt-3 text-sm leading-7 text-neutral-600">以清单、模板、会议纪要和风险台账推动可验收成果。</p></div><div class="rounded-2xl bg-white p-6"><h3 class="text-xl font-black">长期陪伴</h3><p class="mt-3 text-sm leading-7 text-neutral-600">从专项服务延伸至常年顾问，把法律服务嵌入经营日常。</p></div></div></div>
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="reveal max-w-3xl"><p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Bowang</p><h2 class="mt-3 text-3xl font-black md:text-5xl">博望方法</h2></div>
+        <div class="mt-8 grid gap-5 md:grid-cols-3"><div class="reveal rounded-2xl bg-white p-6"><h3 class="text-xl font-black">行业语境</h3><p class="mt-3 text-sm leading-7 text-neutral-600">用连锁经营语言理解合同、授权、门店管理和招商节奏。</p></div><div class="reveal rounded-2xl bg-white p-6"><h3 class="text-xl font-black">项目交付</h3><p class="mt-3 text-sm leading-7 text-neutral-600">以清单、模板、会议纪要和风险台账推动可验收成果。</p></div><div class="reveal rounded-2xl bg-white p-6"><h3 class="text-xl font-black">长期陪伴</h3><p class="mt-3 text-sm leading-7 text-neutral-600">从专项服务延伸至常年顾问，把法律服务嵌入经营日常。</p></div></div>
       </div>
     </section>
-    <section id="contact" class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="reveal grid gap-8 rounded-[32px] border border-black/10 p-6 md:p-10 lg:grid-cols-[.85fr_1.15fr]">
-        <div><p class="text-sm font-black uppercase tracking-[.28em] text-red-700">Contact</p><h2 class="mt-3 text-3xl font-black md:text-5xl">联系我们</h2><div class="mt-8 grid gap-4 text-neutral-700"><p class="flex gap-3"><i data-lucide="phone" class="h-5 w-5 text-red-700"></i> 400-800-2026</p><p class="flex gap-3"><i data-lucide="mail" class="h-5 w-5 text-red-700"></i> contact@bowang-law.demo</p><p class="flex gap-3"><i data-lucide="map-pin" class="h-5 w-5 text-red-700"></i> 上海市浦东新区世纪大道 88 号</p></div></div>
-        <form class="grid gap-4" onsubmit="event.preventDefault(); this.querySelector('[data-result]').textContent='已收到演示咨询信息，正式站点可接入表单接口。';">
-          <div class="grid gap-4 md:grid-cols-2"><input class="input" required placeholder="您的姓名"><input class="input" required placeholder="联系电话"></div>
-          <div class="grid gap-4 md:grid-cols-2"><input class="input" placeholder="公司名称"><select class="input"><option>咨询类型：常年法律顾问</option><option>咨询类型：专项服务</option><option>咨询类型：争议解决</option><option>咨询类型：企业内训</option></select></div>
-          <textarea class="input min-h-[140px]" placeholder="请简要描述企业阶段、门店数量或当前问题"></textarea>
-          <button class="inline-flex items-center justify-center gap-2 rounded-full bg-black px-6 py-3 font-bold text-white hover:bg-red-700" type="submit">提交咨询 <i data-lucide="send" class="h-4 w-4"></i></button>
-          <p data-result class="text-sm font-bold text-red-700"></p>
-        </form>
+    <section id="contact" class="bg-[#fff8f3] py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="reveal text-center">
+          <p class="text-sm font-black uppercase tracking-[.28em] text-red-800">Contact</p>
+          <h2 class="mt-3 text-3xl font-black md:text-5xl">准备扩张前，先做一次法律体检</h2>
+          <p class="mx-auto mt-5 max-w-3xl leading-8 text-neutral-600">填写基本信息，我们的律师顾问将在 24 小时内联系您，根据企业阶段、门店规模和扩张计划安排合适的法律服务方案。</p>
+        </div>
+        <div class="mt-12 grid gap-8">
+          <form id="contactForm" class="reveal border border-black/10 bg-white p-6 shadow-xl shadow-black/5 md:p-8">
+            <div class="flex flex-col justify-between gap-4 border-b border-black/10 pb-6 md:flex-row md:items-end">
+              <div>
+                <h3 class="text-2xl font-black">预约免费法律体检</h3>
+                <p class="mt-2 text-sm text-neutral-500">首次咨询免费，信息仅用于本次联系。</p>
+              </div>
+              <span class="inline-flex items-center gap-2 self-start rounded-full bg-[#fff8f3] px-4 py-2 text-xs font-black text-red-800 md:self-auto"><i data-lucide="shield-check" class="h-4 w-4"></i> 信息保密</span>
+            </div>
+            <div class="mt-6 grid gap-5 md:grid-cols-2">
+              <label class="grid gap-2 text-sm font-bold">您的姓名
+                <input class="w-full border border-black/15 px-4 py-3 font-normal outline-none focus:border-red-800" name="name" placeholder="请输入您的姓名" required>
+              </label>
+              <label class="grid gap-2 text-sm font-bold">品牌名称
+                <input class="w-full border border-black/15 px-4 py-3 font-normal outline-none focus:border-red-800" name="brand" placeholder="例如：某某火锅 / 某某茶饮" required>
+              </label>
+              <label class="grid gap-2 text-sm font-bold">门店数量
+                <select class="w-full border border-black/15 px-4 py-3 font-normal outline-none focus:border-red-800" name="stores">
+                  <option value="">请选择</option>
+                  <option>1-3 家</option>
+                  <option>4-10 家</option>
+                  <option>11-50 家</option>
+                  <option>51-100 家</option>
+                  <option>100 家以上</option>
+                </select>
+              </label>
+              <label class="grid gap-2 text-sm font-bold">联系电话
+                <input class="w-full border border-black/15 px-4 py-3 font-normal outline-none focus:border-red-800" name="phone" type="tel" placeholder="请输入手机号码" required>
+              </label>
+              <label class="grid gap-2 text-sm font-bold md:col-span-2">需求描述
+                <textarea class="min-h-[140px] w-full resize-y border border-black/15 px-4 py-3 font-normal outline-none focus:border-red-800" name="needs" placeholder="请简要描述当前法律需求，例如加盟备案、合同体系、食品安全、劳动用工或争议处理。"></textarea>
+              </label>
+            </div>
+            <button class="mt-6 inline-flex w-full items-center justify-center gap-2 bg-[#8f141b] px-6 py-4 font-black text-white hover:bg-black" type="submit">提交预约，律师将在 24 小时内联系您 <i data-lucide="send" class="h-4 w-4"></i></button>
+            <div class="mt-5 flex flex-wrap gap-3 text-xs font-bold text-neutral-500">
+              <span class="inline-flex items-center gap-1"><i data-lucide="lock-keyhole" class="h-4 w-4 text-red-800"></i> 信息严格保密</span>
+              <span class="inline-flex items-center gap-1"><i data-lucide="check-circle-2" class="h-4 w-4 text-red-800"></i> 首次咨询免费</span>
+              <span class="inline-flex items-center gap-1"><i data-lucide="clock-3" class="h-4 w-4 text-red-800"></i> 7×24 小时响应</span>
+            </div>
+          </form>
+          <div class="contact-info-grid reveal">
+            <div class="border border-black/10 bg-white p-6 md:p-8">
+              <h3 class="flex items-center gap-2 text-xl font-black"><i data-lucide="phone-call" class="h-5 w-5 text-red-800"></i> 直接联系</h3>
+              <p class="mt-3 text-sm leading-7 text-neutral-600">适合已经在筹备开放加盟、门店快速扩张或正在处理争议的餐饮企业。</p>
+              <div class="mt-8 grid gap-5 text-sm text-neutral-700">
+                <p class="flex items-start gap-3"><i data-lucide="phone" class="mt-0.5 h-5 w-5 shrink-0 text-red-800"></i><span><strong class="block text-base text-[#211715]">400-800-2026</strong>咨询热线</span></p>
+                <p class="flex items-start gap-3"><i data-lucide="mail" class="mt-0.5 h-5 w-5 shrink-0 text-red-800"></i><span><strong class="block text-base text-[#211715]">contact@bowang-law.demo</strong>商务合作邮箱</span></p>
+                <p class="flex items-start gap-3"><i data-lucide="map-pin" class="mt-0.5 h-5 w-5 shrink-0 text-red-800"></i><span><strong class="block text-base text-[#211715]">上海市浦东新区世纪大道 88 号</strong>博望连锁法务团队</span></p>
+              </div>
+            </div>
+            <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-1">
+              <div class="border border-black/10 bg-white p-6 md:p-8">
+                <h3 class="flex items-center gap-2 text-xl font-black"><i data-lucide="message-square-text" class="h-5 w-5 text-red-800"></i> 关注公众号</h3>
+                <div class="mt-5 flex flex-col gap-5 sm:flex-row sm:items-center">
+                  <img class="h-40 w-40 shrink-0 border border-red-800/20 bg-white p-2" src="wechat-qrcode.svg" alt="博望餐饮法务咨询公众号二维码">
+                  <div class="min-w-0">
+                    <p class="text-base font-black text-[#211715]">博望餐饮法务咨询</p>
+                    <p class="mt-2 text-sm leading-7 text-neutral-600">获取餐饮法务干货、行业政策解读、加盟合规和争议案例复盘。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="border border-black/10 bg-white p-6 md:p-8">
+                <h3 class="flex items-center gap-2 text-xl font-black"><i data-lucide="calendar-clock" class="h-5 w-5 text-red-800"></i> 服务时间</h3>
+                <div class="mt-5 grid gap-3 text-sm text-neutral-700">
+                  <p>工作日：9:00 - 18:00</p>
+                  <p>紧急事务：7×24 小时响应</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
-  <footer class="border-t border-black/10 bg-[#f8f6f1]"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>联系表单为前端演示</span></div></footer>
+  <footer class="border-t border-black/10 bg-[#fff8f3] text-[#211715]">
+    <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <div class="max-w-xl">
+          <img src="logo.png" alt="博望连锁法务团队" class="h-10 w-auto">
+          <p class="mt-4 text-sm leading-7 text-neutral-600">博望连锁法务团队，垂直深耕餐饮连锁领域，致力于为火锅、茶饮、快餐、烘焙等连锁品牌提供全周期、可落地的法律解决方案。</p>
+        </div>
+        <nav class="flex flex-wrap gap-x-8 gap-y-3 text-sm font-black text-neutral-800">
+          <a href="services.html" class="hover:text-red-800">业务领域</a>
+          <a href="research.html" class="hover:text-red-800">博望研究</a>
+          <a href="team.html" class="hover:text-red-800">博望团队</a>
+          <a href="classroom.html" class="hover:text-red-800">博望课堂</a>
+          <a href="cases.html" class="hover:text-red-800">服务案例</a>
+          <a href="about.html" class="hover:text-red-800">关于我们</a>
+        </nav>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-black/10 pt-6 text-sm text-neutral-600">
+        <span>400-800-2026</span>
+        <span>contact@bowang-law.demo</span>
+        <span>餐饮法务咨询静态演示官网</span>
+      </div>
+    </div>
+  </footer>
   <button id="topBtn" class="fixed bottom-5 right-5 hidden h-11 w-11 items-center justify-center rounded-full bg-black text-white shadow-lg hover:bg-red-700" aria-label="返回顶部"><i data-lucide="arrow-up" class="h-5 w-5"></i></button>
-  <script>document.querySelector("[data-menu]")?.addEventListener("click",()=>document.getElementById("mobileNav").classList.toggle("hidden"));const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));const topBtn=document.getElementById("topBtn");window.addEventListener("scroll",()=>{topBtn.classList.toggle("hidden",window.scrollY<700);topBtn.classList.toggle("inline-flex",window.scrollY>=700)});topBtn?.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));window.lucide?.createIcons();</script>
+  <script>document.querySelector("[data-menu]")?.addEventListener("click",()=>document.getElementById("mobileNav").classList.toggle("hidden"));document.getElementById("contactForm")?.addEventListener("submit",event=>{event.preventDefault();const button=event.currentTarget.querySelector("button[type='submit']");if(button){button.innerHTML='预约信息已记录，律师顾问将尽快联系您 <i data-lucide="check-circle-2" class="h-4 w-4"></i>';window.lucide?.createIcons();}});const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));const topBtn=document.getElementById("topBtn");window.addEventListener("scroll",()=>{topBtn.classList.toggle("hidden",window.scrollY<700);topBtn.classList.toggle("inline-flex",window.scrollY>=700)});topBtn?.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));window.lucide?.createIcons();</script>
 </body>
 </html>

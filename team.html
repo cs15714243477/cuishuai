@@ -8,37 +8,247 @@
   <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
   <script src="https://unpkg.com/lucide@1.20.0/dist/umd/lucide.js"></script>
   <style>
-    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink)}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.page-hero{background-image:linear-gradient(90deg,rgba(0,0,0,.74),rgba(0,0,0,.38)),url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2200&q=85");background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.show{opacity:1;transform:translateY(0)}.card-hover{transition:transform .25s ease,box-shadow .25s ease}.card-hover:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(16,24,40,.12)}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
-  </style>
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-ExtraLight.otf") format("opentype");
+      font-weight: 200;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Light.otf") format("opentype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Regular.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Medium.otf") format("opentype");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-SemiBold.otf") format("opentype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Bold.otf") format("opentype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Source Han Serif SC";
+      src: url("SubsetOTF/CN/SourceHanSerifCN-Heavy.otf") format("opentype");
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root{--brand:#c8102e;--ink:#161616;--paper:#f8f6f1}html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family: "Source Han Serif SC","Noto Serif CJK SC","Noto Serif SC","Songti SC","STSong","SimSun",serif !important;color:var(--ink)}img{max-width:100%;display:block}.glass{background:rgba(255,255,255,.9);backdrop-filter:blur(16px)}.nav-link{position:relative;color:#2b2b2b;font-family:"Source Han Serif SC","Noto Serif CJK SC","Noto Serif SC","Songti SC","STSong","SimSun",serif!important;font-size:1rem!important;font-weight:900!important;line-height:1.35}.nav-link:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;transform:scaleX(0);transform-origin:left;background:var(--brand);transition:transform .22s ease}.nav-link:hover:after,.nav-link.active:after{transform:scaleX(1)}.page-hero{background-image:linear-gradient(90deg,rgba(0,0,0,.74),rgba(0,0,0,.38)),url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2200&q=85");background-position:center;background-size:cover}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.show{opacity:1;transform:translateY(0)}.card-hover{transition:transform .25s ease,box-shadow .25s ease}.card-hover:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(16,24,40,.12)}.team-board{position:relative;background:linear-gradient(180deg,#f6f1ea 0%,#fffaf4 45%,#f4efe8 100%);overflow:hidden}.team-board:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(33,23,21,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(33,23,21,.06) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.16));pointer-events:none}.team-board:after{content:"";position:absolute;left:50%;top:0;width:min(1100px,88vw);height:160px;transform:translateX(-50%);border:1px solid rgba(200,16,46,.14);border-top:0;pointer-events:none}.team-board-inner{position:relative}.team-board-heading{border-left:4px solid #c8102e;background:rgba(255,255,255,.72);box-shadow:0 18px 50px rgba(33,23,21,.08);backdrop-filter:blur(10px)}.team-card{position:relative;border:1px solid rgba(0,0,0,.1);background:linear-gradient(180deg,#fff,#fff8f3);box-shadow:0 16px 40px rgba(16,24,40,.06);transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}.team-card:before{content:"";position:absolute;inset:10px;pointer-events:none;border:1px solid rgba(200,16,46,.16);opacity:0;transition:opacity .35s ease,transform .35s ease}.team-card:after{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#c8102e,#f4d3a2,#c8102e);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}.team-card:hover{transform:translateY(-8px);border-color:rgba(200,16,46,.35);box-shadow:0 28px 70px rgba(33,23,21,.14)}.team-card:hover:before{opacity:1;transform:scale(.985)}.team-card:hover:after{transform:scaleX(1)}.team-photo-wrap{position:relative;margin:14px 14px 0;overflow:hidden;background:#252729}.team-photo-wrap:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(200,16,46,.08));opacity:.55;transition:opacity .35s ease}.team-photo{transition:transform .55s ease,filter .35s ease}.team-card:hover .team-photo{transform:scale(1.045);filter:saturate(1.08) contrast(1.04)}.team-card:hover .team-photo-wrap:before{opacity:.18}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+  button,input,textarea,select{font-family:inherit!important}</style>
 </head>
 <body class="antialiased">
-  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass"><div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8"><a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a><nav class="hidden items-center gap-7 text-sm font-semibold lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link active" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link" href="about.html">关于我们</a></nav><a href="about.html#contact" class="hidden rounded-full bg-black px-5 py-2 text-sm font-bold text-white hover:bg-red-700 lg:inline-flex">预约咨询</a><button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button></div><div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-sm font-semibold"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div></header>
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-black/10 glass"><div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8"><a href="index.html"><img src="logo.png" alt="博望连锁法务团队" class="h-9 w-auto md:h-11"></a><nav class="hidden items-center gap-6 text-base font-black lg:flex"><a class="nav-link" href="index.html">首页</a><a class="nav-link" href="services.html">业务领域</a><a class="nav-link" href="research.html">博望研究</a><a class="nav-link active" href="team.html">博望团队</a><a class="nav-link" href="classroom.html">博望课堂</a><a class="nav-link" href="cases.html">服务案例</a><a class="nav-link" href="about.html">关于我们</a></nav><div class="hidden items-center gap-3 lg:flex"><a href="about.html#contact" class="rounded-full border border-black/15 px-4 py-2 text-sm font-bold text-black hover:border-red-700 hover:text-red-700">预约咨询</a><a href="tel:400-800-2026" class="inline-flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-bold text-white hover:bg-red-700"><i data-lucide="phone" class="h-4 w-4"></i> 400-800-2026</a></div><button data-menu class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 lg:hidden" aria-label="打开导航"><i data-lucide="menu" class="h-5 w-5"></i></button></div><div id="mobileNav" class="hidden border-t border-black/10 bg-white px-5 py-4 lg:hidden"><div class="grid gap-3 text-base font-black"><a href="index.html">首页</a><a href="services.html">业务领域</a><a href="research.html">博望研究</a><a href="team.html">博望团队</a><a href="classroom.html">博望课堂</a><a href="cases.html">服务案例</a><a href="about.html">关于我们</a></div></div></header>
   <main>
     <section class="page-hero pt-32 text-white"><div class="mx-auto max-w-7xl px-5 py-24 lg:px-8"><div class="reveal max-w-3xl"><p class="text-sm font-black uppercase tracking-[.28em] text-red-200">Attorneys</p><h1 class="mt-4 text-4xl font-black leading-tight md:text-6xl">博望团队</h1><p class="mt-6 text-lg leading-8 text-white/78">以项目负责人、专业律师、行业顾问组成服务小组，让每一项法务需求都有明确归口和交付节奏。</p></div></div></section>
-    <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <a href="team-detail.html?id=lin" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline"><img class="h-72 w-full object-cover" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="林正远律师演示图"><div class="p-6"><p class="text-xs font-bold text-red-700">首席合伙人</p><h2 class="mt-1 text-2xl font-black">林正远</h2><p class="mt-3 text-sm leading-7 text-neutral-600">连锁经营、加盟合规、重大商事争议。曾为餐饮、零售和教育品牌提供扩张期法务体系设计。</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-[#f8f6f1] px-3 py-1">加盟体系</span><span class="rounded-full bg-[#f8f6f1] px-3 py-1">争议策略</span></div></div></a>
-        <a href="team-detail.html?id=zhou" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline"><img class="h-72 w-full object-cover" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="周若宁律师演示图"><div class="p-6"><p class="text-xs font-bold text-red-700">高级律师</p><h2 class="mt-1 text-2xl font-black">周若宁</h2><p class="mt-3 text-sm leading-7 text-neutral-600">门店劳动用工、广告宣传合规、合同模板管理。负责常法服务台账和培训课程设计。</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-[#f8f6f1] px-3 py-1">用工合规</span><span class="rounded-full bg-[#f8f6f1] px-3 py-1">广告审查</span></div></div></a>
-        <a href="team-detail.html?id=chen" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline"><img class="h-72 w-full object-cover" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="陈宇航律师演示图"><div class="p-6"><p class="text-xs font-bold text-red-700">争议解决律师</p><h2 class="mt-1 text-2xl font-black">陈宇航</h2><p class="mt-3 text-sm leading-7 text-neutral-600">加盟争议、供应链纠纷、租赁谈判和执行案件。擅长批量案件的证据分层管理。</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-[#f8f6f1] px-3 py-1">诉讼仲裁</span><span class="rounded-full bg-[#f8f6f1] px-3 py-1">谈判</span></div></div></a>
-        <a href="team-detail.html?id=shen" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline"><img class="h-72 w-full object-cover" src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="沈明悦律师演示图"><div class="p-6"><p class="text-xs font-bold text-red-700">知识产权顾问</p><h2 class="mt-1 text-2xl font-black">沈明悦</h2><p class="mt-3 text-sm leading-7 text-neutral-600">商标布局、版权保护、商业秘密和品牌授权。支持品牌扩张中的资产保护。</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-[#f8f6f1] px-3 py-1">商标版权</span><span class="rounded-full bg-[#f8f6f1] px-3 py-1">商业秘密</span></div></div></a>
-        <a href="team-detail.html?id=xu" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline"><img class="h-72 w-full object-cover" src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="团队项目会议演示图"><div class="p-6"><p class="text-xs font-bold text-red-700">项目经理</p><h2 class="mt-1 text-2xl font-black">许以辰</h2><p class="mt-3 text-sm leading-7 text-neutral-600">负责客户需求收口、交付排期、资料清单和会议纪要，确保专项服务按节点推进。</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-[#f8f6f1] px-3 py-1">项目管理</span><span class="rounded-full bg-[#f8f6f1] px-3 py-1">客户成功</span></div></div></a>
-        <a href="team-detail.html?id=tang" class="reveal card-hover block overflow-hidden rounded-2xl border border-black/10 bg-white text-black no-underline"><img class="h-72 w-full object-cover" src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="企业培训顾问演示图"><div class="p-6"><p class="text-xs font-bold text-red-700">培训顾问</p><h2 class="mt-1 text-2xl font-black">唐亦安</h2><p class="mt-3 text-sm leading-7 text-neutral-600">将法律风险转化为管理语言，设计招商、运营、区域管理等不同岗位课程。</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-[#f8f6f1] px-3 py-1">课程设计</span><span class="rounded-full bg-[#f8f6f1] px-3 py-1">内训</span></div></div></a>
+    <section class="team-board py-20">
+      <div class="team-board-inner mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="team-board-heading reveal mb-8 px-6 py-5 md:flex md:items-end md:justify-between">
+          <div><p class="text-xs font-black uppercase tracking-[.28em] text-red-700">Professional Board</p><h2 class="mt-2 text-3xl font-black">餐饮连锁法务专业团队</h2></div>
+          <p class="mt-3 max-w-xl text-sm leading-7 text-neutral-600 md:mt-0">以合伙人牵头、专业律师协同的方式，为加盟、用工、知识产权、食品安全和争议解决配置专项负责人。</p>
+        </div>
+        <div id="teamGrid" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
       </div>
     </section>
     <section class="border-y border-black/10 bg-[#f8f6f1] py-10">
       <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 md:flex-row md:items-center md:justify-between lg:px-8">
-        <div><p class="text-xs font-black uppercase tracking-[.24em] text-red-700">List Pagination</p><p class="mt-2 text-sm text-neutral-600">共 6 位团队成员演示数据</p></div>
-        <nav class="flex flex-wrap items-center gap-2 text-sm font-black" aria-label="博望团队分页">
-          <span class="inline-flex h-11 items-center justify-center border border-black/10 bg-white px-4 text-neutral-400">上一页</span>
-          <span class="inline-flex h-11 w-11 items-center justify-center bg-black text-white">1</span>
-          <a href="team.html?page=2" class="inline-flex h-11 w-11 items-center justify-center border border-black/10 bg-white text-black hover:border-red-700 hover:text-red-700">2</a>
-          <a href="team.html?page=2" class="inline-flex h-11 items-center justify-center gap-2 border border-black/10 bg-white px-4 text-black hover:border-red-700 hover:text-red-700">下一页 <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-        </nav>
+        <div><p class="text-xs font-black uppercase tracking-[.24em] text-red-700">Team Pagination</p><p id="teamCount" class="mt-2 text-sm text-neutral-600"></p></div>
+        <nav id="teamPager" class="flex flex-wrap items-center gap-2 text-sm font-black" aria-label="博望团队分页"></nav>
       </div>
     </section>
   </main>
-  <footer class="border-t border-black/10 bg-[#f8f6f1]"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between lg:px-8"><span>© 2026 博望连锁法务团队 Demo</span><span>律师姓名与照片均为演示数据</span></div></footer>
+  <footer class="border-t border-black/10 bg-[#fff8f3] text-[#211715]">
+    <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <div class="max-w-xl">
+          <img src="logo.png" alt="博望连锁法务团队" class="h-10 w-auto">
+          <p class="mt-4 text-sm leading-7 text-neutral-600">博望连锁法务团队，垂直深耕餐饮连锁领域，致力于为火锅、茶饮、快餐、烘焙等连锁品牌提供全周期、可落地的法律解决方案。</p>
+        </div>
+        <nav class="flex flex-wrap gap-x-8 gap-y-3 text-sm font-black text-neutral-800">
+          <a href="services.html" class="hover:text-red-800">业务领域</a>
+          <a href="research.html" class="hover:text-red-800">博望研究</a>
+          <a href="team.html" class="hover:text-red-800">博望团队</a>
+          <a href="classroom.html" class="hover:text-red-800">博望课堂</a>
+          <a href="cases.html" class="hover:text-red-800">服务案例</a>
+          <a href="about.html" class="hover:text-red-800">关于我们</a>
+        </nav>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-black/10 pt-6 text-sm text-neutral-600">
+        <span>400-800-2026</span>
+        <span>contact@bowang-law.demo</span>
+        <span>餐饮法务咨询静态演示官网</span>
+      </div>
+    </div>
+  </footer>
   <button id="topBtn" class="fixed bottom-5 right-5 hidden h-11 w-11 items-center justify-center rounded-full bg-black text-white shadow-lg hover:bg-red-700" aria-label="返回顶部"><i data-lucide="arrow-up" class="h-5 w-5"></i></button>
-  <script>document.querySelector("[data-menu]")?.addEventListener("click",()=>document.getElementById("mobileNav").classList.toggle("hidden"));const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));const topBtn=document.getElementById("topBtn");window.addEventListener("scroll",()=>{topBtn.classList.toggle("hidden",window.scrollY<700);topBtn.classList.toggle("inline-flex",window.scrollY>=700)});topBtn?.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));window.lucide?.createIcons();</script>
+  <script>
+const teamPeople=[
+  {
+    "id": "lin",
+    "name": "马俊龙",
+    "role": "团队合伙人",
+    "title": "餐饮连锁法务负责人，专注加盟合规、商业特许经营备案、股权架构与重大争议解决。",
+    "photo": "博望官网素材/团队合伙人/马俊龙.jpg",
+    "tags": [
+      "加盟体系",
+      "餐饮合规"
+    ]
+  },
+  {
+    "id": "zhou",
+    "name": "谢长丽",
+    "role": "团队合伙人",
+    "title": "聚焦餐饮企业劳动用工、门店合规、内部管理制度与用工风险课程。",
+    "photo": "博望官网素材/团队合伙人/谢长丽.png",
+    "tags": [
+      "用工合规",
+      "门店管理"
+    ]
+  },
+  {
+    "id": "chen",
+    "name": "党俏",
+    "role": "团队合伙人",
+    "title": "擅长招商加盟合同条款、合同履行监管、加盟争议处理与课程分享。",
+    "photo": "博望官网素材/团队合伙人/党俏.jpg",
+    "tags": [
+      "加盟合同",
+      "争议处理"
+    ]
+  },
+  {
+    "id": "shen",
+    "name": "刘舒",
+    "role": "专业律师",
+    "title": "支持餐饮品牌知识产权、商业秘密、合同文本与日常合规咨询。",
+    "photo": "博望官网素材/刘舒.png",
+    "tags": [
+      "知识产权",
+      "品牌保护"
+    ]
+  },
+  {
+    "id": "xu",
+    "name": "浦宝婧",
+    "role": "专业律师",
+    "title": "聚焦加盟合同签署履行、日常合同审查、餐饮门店经营风险提示。",
+    "photo": "博望官网素材/浦宝婧.jpg",
+    "tags": [
+      "合同履行",
+      "门店风控"
+    ]
+  },
+  {
+    "id": "tang",
+    "name": "冯诗涵",
+    "role": "专业律师",
+    "title": "参与餐饮企业法务课程、客户沟通、项目资料整理与培训落地。",
+    "photo": "博望官网素材/冯诗涵.jpg",
+    "tags": [
+      "课程支持",
+      "项目协同"
+    ]
+  },
+  {
+    "id": "li",
+    "name": "李哲",
+    "role": "专业律师",
+    "title": "协助餐饮品牌处理合同审查、供应链合作、招商材料和门店经营合规问题。",
+    "photo": "博望官网素材/李哲.jpg",
+    "tags": [
+      "供应链合同",
+      "招商合规"
+    ]
+  },
+  {
+    "id": "wangxiufang",
+    "name": "王秀方",
+    "role": "专业律师",
+    "title": "关注加盟体系文件、劳动用工制度和餐饮企业日常法律咨询交付。",
+    "photo": "博望官网素材/王秀方.jpg",
+    "tags": [
+      "常年顾问",
+      "制度搭建"
+    ]
+  },
+  {
+    "id": "wangdian",
+    "name": "王典",
+    "role": "专业律师",
+    "title": "参与客户争议处理、证据材料梳理、合同履行监管和培训课程支持。",
+    "photo": "博望官网素材/王典.png",
+    "tags": [
+      "争议协同",
+      "证据整理"
+    ]
+  },
+  {
+    "id": "peng",
+    "name": "彭晓瑭",
+    "role": "专业律师",
+    "title": "聚焦品牌宣传合规、商标授权、公众号文章素材和活动规则审查。",
+    "photo": "博望官网素材/彭晓瑭.jpg",
+    "tags": [
+      "宣传合规",
+      "品牌授权"
+    ]
+  },
+  {
+    "id": "sun",
+    "name": "孙靖雯",
+    "role": "专业律师",
+    "title": "支持餐饮企业客户沟通、项目管理、门店合规清单和法律文件落地。",
+    "photo": "博望官网素材/孙靖雯.jpg",
+    "tags": [
+      "项目管理",
+      "门店合规"
+    ]
+  }
+];
+const pageSize=6;
+const params=new URLSearchParams(location.search);
+let currentPage=Math.max(1,parseInt(params.get('page')||'1',10));
+const totalPages=Math.max(1,Math.ceil(teamPeople.length/pageSize));
+currentPage=Math.min(currentPage,totalPages);
+const teamGrid=document.getElementById('teamGrid');
+const teamCount=document.getElementById('teamCount');
+const teamPager=document.getElementById('teamPager');
+const escapeHtml=s=>String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[m]));
+function renderTeam(){
+  const start=(currentPage-1)*pageSize;
+  const items=teamPeople.slice(start,start+pageSize);
+  teamGrid.innerHTML=items.map(p=>'<a href="team-detail.html?id='+encodeURIComponent(p.id)+'" class="team-card reveal show block overflow-hidden rounded-2xl text-black no-underline"><div class="team-photo-wrap rounded-xl"><img class="team-photo h-[396px] w-full object-contain object-bottom" src="'+escapeHtml(p.photo)+'" alt="'+escapeHtml(p.name)+'律师"></div><div class="p-6"><p class="text-xs font-bold text-red-700">'+escapeHtml(p.role)+'</p><h2 class="mt-1 text-2xl font-black">'+escapeHtml(p.name)+'</h2><p class="mt-3 text-sm leading-7 text-neutral-600">'+escapeHtml(p.title)+'</p><div class="mt-5 flex flex-wrap gap-2 text-xs font-bold">'+p.tags.map(t=>'<span class="rounded-full bg-[#f8f6f1] px-3 py-1">'+escapeHtml(t)+'</span>').join('')+'</div></div></a>').join('');
+  teamCount.textContent='共 '+teamPeople.length+' 位团队成员，当前展示 '+(start+1)+'-'+Math.min(start+items.length,teamPeople.length)+' 位';
+  const item=(page,label,disabled,active)=>disabled?'<span class="inline-flex h-11 items-center justify-center border border-black/10 bg-white px-4 text-neutral-400">'+label+'</span>':active?'<span class="inline-flex h-11 min-w-11 items-center justify-center bg-black px-4 text-white">'+label+'</span>':'<a href="team.html?page='+page+'" class="inline-flex h-11 min-w-11 items-center justify-center border border-black/10 bg-white px-4 text-black hover:border-red-700 hover:text-red-700">'+label+'</a>';
+  teamPager.innerHTML=item(currentPage-1,'上一页',currentPage<=1,false)+Array.from({length:totalPages},(_,i)=>item(i+1,String(i+1),false,currentPage===i+1)).join('')+item(currentPage+1,'下一页',currentPage>=totalPages,false);
+}
+renderTeam();
+document.querySelector('[data-menu]')?.addEventListener('click',()=>document.getElementById('mobileNav').classList.toggle('hidden'));
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const topBtn=document.getElementById('topBtn');window.addEventListener('scroll',()=>{topBtn.classList.toggle('hidden',window.scrollY<700);topBtn.classList.toggle('inline-flex',window.scrollY>=700)});topBtn?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));window.lucide?.createIcons();
+</script>
 </body>
 </html>
