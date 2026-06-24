@@ -1201,7 +1201,10 @@
                 }
             }
             .${PREFIX}toolbar {
-                top: 24px;
+                top: 50%;
+                right: 18px;
+                left: auto;
+                transform: translateY(-50%);
                 width: 298px;
                 max-width: calc(100vw - 28px);
                 padding: 10px;
