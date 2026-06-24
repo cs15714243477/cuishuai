@@ -698,6 +698,7 @@
                 toolbar.style.transform = 'none'; // Remove transform for direct positioning
                 toolbar.style.left = `${currentRect.left}px`; // Set explicit left/top
                 toolbar.style.top = `${currentRect.top}px`;
+                toolbar.style.right = 'auto';
                 toolbar.style.bottom = 'auto'; // Clear bottom positioning for mobile
                 // Don't set width and height here to prevent toolbar growth
             });
@@ -714,6 +715,7 @@
                 toolbar.style.transform = 'none'; // Remove transform for direct positioning
                 toolbar.style.left = `${currentRect.left}px`; // Set explicit left/top
                 toolbar.style.top = `${currentRect.top}px`;
+                toolbar.style.right = 'auto';
                 toolbar.style.bottom = 'auto'; // Clear bottom positioning for mobile
                 // Don't set width and height here to prevent toolbar growth
                 dragHandle.style.cursor = 'grabbing';
@@ -920,9 +922,10 @@
         style.textContent = `
             .${PREFIX}toolbar {
                 position: fixed;
-                top: 20px; /* Initial position */
-                left: 50%;
-                transform: translateX(-50%); /* Initial centering */
+                top: 50%; /* Initial position */
+                right: 18px;
+                left: auto;
+                transform: translateY(-50%); /* Keep it off the main content */
                 background: linear-gradient(145deg, #2c3e50 0%, #1a252f 100%);
                 border: 1px solid #11181f;
                 border-top: 1px solid #4a5c6d; /* Subtle top highlight */
@@ -1199,14 +1202,14 @@
             }
             .${PREFIX}toolbar {
                 top: 24px;
-                width: 372px;
+                width: 298px;
                 max-width: calc(100vw - 28px);
-                padding: 12px;
+                padding: 10px;
                 background: rgba(255, 255, 255, 0.96);
                 color: #1f2937;
                 border: 1px solid rgba(161, 13, 25, 0.22);
-                border-radius: 14px;
-                box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18), 0 4px 14px rgba(161, 13, 25, 0.1);
+                border-radius: 12px;
+                box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16), 0 4px 12px rgba(161, 13, 25, 0.08);
                 backdrop-filter: blur(16px);
                 cursor: default;
             }
@@ -1214,21 +1217,21 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                gap: 10px;
-                margin-bottom: 10px;
-                padding: 4px 4px 10px;
+                gap: 8px;
+                margin-bottom: 8px;
+                padding: 2px 2px 8px;
                 border-bottom: 1px solid rgba(161, 13, 25, 0.12);
                 cursor: grab;
             }
             .${PREFIX}toolbar-title {
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: 800;
                 color: #111827;
                 letter-spacing: 0.08em;
             }
             .${PREFIX}toolbar-subtitle {
                 margin-top: 2px;
-                font-size: 11px;
+                font-size: 10px;
                 color: #8b5f63;
             }
             .${PREFIX}identity-button {
@@ -1236,33 +1239,40 @@
                 background: #fff7f5;
                 color: #a10d19;
                 border-radius: 999px;
-                padding: 7px 10px;
-                max-width: 150px;
+                padding: 6px 9px;
+                max-width: 112px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 cursor: pointer;
-                font-size: 12px;
+                font-size: 11px;
                 font-weight: 700;
             }
             .${PREFIX}toolbar-row {
-                gap: 7px;
+                gap: 5px;
             }
             .${PREFIX}tool-group {
                 background: #f8fafc;
                 border: 1px solid #eef2f7;
-                padding: 5px;
-                border-radius: 10px;
+                padding: 4px;
+                border-radius: 9px;
                 min-width: 0;
             }
             .${PREFIX}tool-button {
-                min-width: 34px;
-                min-height: 34px;
-                border-radius: 9px;
+                min-width: 30px;
+                min-height: 30px;
+                width: 30px;
+                height: 30px;
+                padding: 0;
+                border-radius: 8px;
                 background: #ffffff;
                 border: 1px solid #e5e7eb;
                 color: #334155;
                 box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            }
+            .${PREFIX}tool-button svg {
+                width: 15px;
+                height: 15px;
             }
             .${PREFIX}tool-button:hover {
                 background: #fff5f4;
@@ -1278,9 +1288,10 @@
             }
             .${PREFIX}save-button,
             .${PREFIX}help-button {
-                min-width: 50px;
-                padding: 0 10px;
-                font-size: 12px;
+                min-width: 42px;
+                width: auto;
+                padding: 0 8px;
+                font-size: 11px;
                 font-weight: 800;
             }
             #${PREFIX}line-width,
@@ -1289,14 +1300,25 @@
                 color: #334155;
                 border-color: #e5e7eb;
             }
+            #${PREFIX}color-picker {
+                width: 30px;
+                height: 30px;
+                min-width: 30px;
+                min-height: 30px;
+            }
+            #${PREFIX}line-width {
+                height: 30px;
+                padding: 4px 3px;
+                font-size: 12px;
+            }
             .${PREFIX}toolbar-foot {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 gap: 8px;
-                margin-top: 8px;
-                padding: 8px 4px 2px;
-                font-size: 11px;
+                margin-top: 6px;
+                padding: 6px 3px 1px;
+                font-size: 10px;
                 color: #64748b;
             }
             .${PREFIX}save-status {
@@ -1793,10 +1815,12 @@
                     toolbar.style.bottom = '10px';
                     toolbar.style.transform = 'none'; 
                 } else {
-                    // For larger screens, center at top
-                    toolbar.style.left = '50%';
-                    toolbar.style.top = '20px';
-                    toolbar.style.transform = 'translateX(-50%)'; 
+                    // For larger screens, keep it docked to the right middle
+                    toolbar.style.left = 'auto';
+                    toolbar.style.right = '18px';
+                    toolbar.style.top = '50%';
+                    toolbar.style.bottom = 'auto';
+                    toolbar.style.transform = 'translateY(-50%)'; 
                 }
             }
         }
